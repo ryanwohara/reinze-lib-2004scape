@@ -1,5 +1,5 @@
 use crate::common::{skill_by_id, skill_id, skills};
-use crate::stats::agility::{Agility, AgilityDetails, AgilityMultipliers};
+use crate::stats::agility::{Agility, AgilityDetails};
 use crate::stats::cooking::{Cooking, CookingDetails};
 use crate::stats::crafting::{Crafting, CraftingDetails};
 use crate::stats::firemaking::{Firemaking, FiremakingDetails, FiremakingMultipliers};
@@ -124,7 +124,6 @@ pub trait Detail {
 
 #[derive(Clone, Ord, PartialOrd, Eq, PartialEq)]
 pub enum Multipliers {
-    Agility(AgilityMultipliers),
     Firemaking(FiremakingMultipliers),
     Fishing(FishingMultipliers),
     #[allow(dead_code)]
