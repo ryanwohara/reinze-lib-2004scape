@@ -1,6 +1,7 @@
 extern crate core;
 
 mod common;
+mod rsn;
 mod stats;
 
 use ::common::author::Author;
@@ -52,16 +53,17 @@ pub extern "C" fn exported(context: *const PluginContext) -> *mut c_char {
             | "mage" | "cooking" | "cook" | "woodcutting" | "wc" | "fletching" | "fletch"
             | "fishing" | "fish" | "firemaking" | "fm" | "crafting" | "craft" | "smithing"
             | "smith" | "mining" | "mine" | "herblore" | "herb" | "agility" | "agil"
-            | "thieving" | "thief" | "slayer" | "slay" | "runecraft" | "rc" => {
-                stats::lookup(source)
-            }
+            | "thieving" | "thief" | "runecraft" | "rc" => stats::lookup(source),
             "combat" | "cmb" => stats::combat(source),
+            "rsn" => rsn::process(source),
             "help" => Ok(r"combat[N]
+rsn[N]
 stats[N]"
                 .split("\n")
                 .map(|s| s.to_string())
                 .collect::<Vec<String>>()),
             "" => Ok(r"co?mb(at)?\d*$
+rsn\d*
 stats
 overall
 total
@@ -83,7 +85,6 @@ min(e|ing)
 herb(lore)?
 agil(ity)?
 thie(f|ving)
-slay(er)?
 r(une)?c(raft)?"
                 .split("\n")
                 .map(|s| s.to_string())

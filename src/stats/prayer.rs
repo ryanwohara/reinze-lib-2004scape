@@ -59,14 +59,10 @@ impl Skill for Prayer {
     }
 
     fn defaults() -> Vec<Details> {
-        vec![
-            Self::BigBones,
-            Self::BabydragonBones,
-            Self::DragonBones,
-        ]
-        .iter()
-        .map(|x| x.details())
-        .collect()
+        vec![Self::BigBones, Self::BabydragonBones, Self::DragonBones]
+            .iter()
+            .map(|x| x.details())
+            .collect()
     }
 
     fn details(&self) -> Details {
@@ -84,9 +80,7 @@ impl Skill for Prayer {
             name: details.0.to_owned(),
             level: details.1,
             xp: details.2,
-            multipliers: vec![
-                Multipliers::Prayer(PrayerMultipliers::Ectofuntus),
-            ],
+            multipliers: vec![Multipliers::Prayer(PrayerMultipliers::Ectofuntus)],
         })
     }
 
