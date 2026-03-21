@@ -14,12 +14,12 @@ mod smithing;
 mod thieving;
 mod woodcutting;
 
-use anyhow::Result;
 use super::common::{
-    Entry, HiscoreName, Listing, Listings, Stats, collect_hiscores, eval_query, level_to_xp, skill,
+    HiscoreName, Listing, Listings, Stats, collect_hiscores, eval_query, level_to_xp, skill,
     skills, xp_to_level,
 };
 use crate::stats::skill::details_by_skill_id;
+use anyhow::Result;
 use common::{commas, source::Source};
 use regex::Regex;
 
@@ -192,13 +192,10 @@ fn prepare(command: &str) -> (usize, String) {
 }
 
 fn prefix(skill_name: &str, flags: &StatsFlags, s: &Source) -> String {
-    vec![
-        s.l(&skill_name),
-        flags.prefix.to_string(s),
-    ]
-    .join(" ")
-    .trim()
-    .replace("  ", " ")
+    vec![s.l(&skill_name), flags.prefix.to_string(s)]
+        .join(" ")
+        .trim()
+        .replace("  ", " ")
 }
 
 pub fn lookup(s: Source) -> Result<Vec<String>> {
@@ -224,14 +221,11 @@ pub fn lookup(s: Source) -> Result<Vec<String>> {
 
     let mut hiscores: Listings = HiscoreName::all()
         .iter()
-        .map(|name| match name.to() {
-            Listing::Entry(entry) => Listing::Entry(Entry {
-                name: entry.name,
-                level: start_level,
-                xp: start_xp,
-                rank: 0,
-            }),
-            Listing::SubEntry(subentry) => Listing::SubEntry(subentry.to_owned()),
+        .map(|name| Listing {
+            name: name.to_owned(),
+            level: start_level,
+            xp: start_xp,
+            rank: 0,
         })
         .collect();
 
@@ -240,7 +234,6 @@ pub fn lookup(s: Source) -> Result<Vec<String>> {
             Ok(hiscores) => hiscores,
             Err(_) => return Ok(not_found),
         };
-        hiscores.retain_entries();
     }
 
     let mut stats: Stats = Stats {
@@ -263,10 +256,10 @@ pub fn lookup(s: Source) -> Result<Vec<String>> {
 
         let next_level = listing.next_level(&stats.flags);
         let next_level_xp = level_to_xp(next_level);
-        let xp_difference = next_level_xp - listing.xp();
+        let xp_difference = next_level_xp - listing.xp;
         let actual_level = listing.actual_level();
 
-        let actual_level_string = if actual_level > listing.level() {
+        let actual_level_string = if actual_level > listing.level {
             s.p(&actual_level.to_string())
         } else {
             "".to_string()
@@ -293,9 +286,9 @@ pub fn lookup(s: Source) -> Result<Vec<String>> {
         ]
         .join(" ");
 
-        let xp_string = vec![s.c1("XP"), s.c2(&commas(listing.xp() as f64, "d"))].join(" ");
+        let xp_string = vec![s.c1("XP"), s.c2(&commas(listing.xp as f64, "d"))].join(" ");
 
-        let rank_string = vec![s.c1("Rank"), s.c2(&commas(listing.rank() as f64, "d"))].join(" ");
+        let rank_string = vec![s.c1("Rank"), s.c2(&commas(listing.rank as f64, "d"))].join(" ");
 
         let mut result = vec![
             level_string.trim(),
@@ -331,15 +324,15 @@ pub fn lookup(s: Source) -> Result<Vec<String>> {
                 MutuallyExclusiveFlag::Sort => {
                     let next_level = listing.next_level(&stats.flags);
                     let next_level_xp = level_to_xp(next_level);
-                    let xp_difference = next_level_xp - listing.xp();
+                    let xp_difference = next_level_xp - listing.xp;
 
-                    (listing.name().to_string(), xp_difference)
+                    (listing.name.to_string(), xp_difference)
                 }
                 MutuallyExclusiveFlag::Order | MutuallyExclusiveFlag::Exp => {
-                    (listing.name().to_string(), listing.xp())
+                    (listing.name.to_string(), listing.xp)
                 }
-                MutuallyExclusiveFlag::Rank => (listing.name().to_string(), listing.rank()),
-                MutuallyExclusiveFlag::None => (listing.name().to_string(), listing.actual_level()),
+                MutuallyExclusiveFlag::Rank => (listing.name.to_string(), listing.rank),
+                MutuallyExclusiveFlag::None => (listing.name.to_string(), listing.actual_level()),
             })
             .collect::<Vec<(String, u32)>>();
 
@@ -421,13 +414,13 @@ pub fn combat(s: Source) -> Result<Vec<String>> {
 
     let combat = stats.combat();
     stats.hiscores.retain_combat();
-    let total_level: u32 = stats.hiscores.iter().map(|listing| listing.level()).sum();
+    let total_level: u32 = stats.hiscores.iter().map(|listing| listing.level).sum();
     if total_level == 0 {
         return Ok(not_found);
     }
     let total_lvl_str = vec![s.c1("Levels:"), s.c2(&commas(total_level as f64, "d"))].join(" ");
 
-    let total_xp: u32 = stats.hiscores.iter().map(|listing| listing.xp()).sum();
+    let total_xp: u32 = stats.hiscores.iter().map(|listing| listing.xp).sum();
     let total_xp_str = vec![s.c1("XP:"), s.c2(&commas(total_xp as f64, "d"))].join(" ");
     let total_str = vec![total_lvl_str, total_xp_str].join(&s.c1(" | "));
 
@@ -436,8 +429,8 @@ pub fn combat(s: Source) -> Result<Vec<String>> {
         .iter()
         .map(|listing| {
             vec![
-                s.c1(&vec![&listing.name().to_string(), ":"].join("")),
-                s.c2(&listing.level().to_string()),
+                s.c1(&vec![&listing.name.to_string(), ":"].join("")),
+                s.c2(&listing.level.to_string()),
             ]
             .join("")
         })
@@ -490,12 +483,27 @@ mod tests {
 
     #[test]
     fn test_mutually_exclusive_flag_from() {
-        assert_eq!(MutuallyExclusiveFlag::from("-o"), MutuallyExclusiveFlag::Order);
-        assert_eq!(MutuallyExclusiveFlag::from("-s"), MutuallyExclusiveFlag::Sort);
-        assert_eq!(MutuallyExclusiveFlag::from("-r"), MutuallyExclusiveFlag::Rank);
-        assert_eq!(MutuallyExclusiveFlag::from("-x"), MutuallyExclusiveFlag::Exp);
+        assert_eq!(
+            MutuallyExclusiveFlag::from("-o"),
+            MutuallyExclusiveFlag::Order
+        );
+        assert_eq!(
+            MutuallyExclusiveFlag::from("-s"),
+            MutuallyExclusiveFlag::Sort
+        );
+        assert_eq!(
+            MutuallyExclusiveFlag::from("-r"),
+            MutuallyExclusiveFlag::Rank
+        );
+        assert_eq!(
+            MutuallyExclusiveFlag::from("-x"),
+            MutuallyExclusiveFlag::Exp
+        );
         assert_eq!(MutuallyExclusiveFlag::from(""), MutuallyExclusiveFlag::None);
-        assert_eq!(MutuallyExclusiveFlag::from("garbage"), MutuallyExclusiveFlag::None);
+        assert_eq!(
+            MutuallyExclusiveFlag::from("garbage"),
+            MutuallyExclusiveFlag::None
+        );
     }
 
     // --- StatsFlags::filter tests ---

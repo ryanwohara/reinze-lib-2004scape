@@ -6,6 +6,12 @@ pub enum Agility {
     GnomeStrongholdCourse,
     BarbarianOutpost,
     Wilderness,
+    // Brimhaven Agility Arena Tickets
+    OneTicket,
+    TenTickets,
+    TwentyFiveTickets,
+    OneHundredTickets,
+    OneThousandTickets,
 }
 
 impl Skill for Agility {
@@ -54,14 +60,25 @@ impl Skill for Agility {
             Self::GnomeStrongholdCourse,
             Self::BarbarianOutpost,
             Self::Wilderness,
+            Self::OneTicket,
+            Self::TenTickets,
+            Self::TwentyFiveTickets,
+            Self::OneHundredTickets,
+            Self::OneThousandTickets,
         ]
     }
 
     fn details(&self) -> Details {
         let details = match self {
-            Agility::GnomeStrongholdCourse => ("Gnome Stronghold", 1, 110.5),
-            Agility::BarbarianOutpost => ("Barbarian Outpost", 35, 152.5),
-            Agility::Wilderness => ("Wilderness", 52, 571.4),
+            Agility::GnomeStrongholdCourse => ("Gnome Stronghold", 1, 92.5),
+            Agility::BarbarianOutpost => ("Barbarian Outpost", 35, 139.5),
+            Agility::Wilderness => ("Wilderness", 52, 682.0),
+            // Brimhaven Agility Arena Tickets
+            Agility::OneTicket => ("One Ticket", 1, 240.0),
+            Agility::TenTickets => ("Ten Tickets", 1, 2480.0),
+            Agility::TwentyFiveTickets => ("Twenty Five Tickets", 1, 6500.0),
+            Agility::OneHundredTickets => ("One Hundred Tickets", 1, 28000.0),
+            Agility::OneThousandTickets => ("One Thousand Tickets", 1, 320000.0),
         };
 
         Details::Agility(AgilityDetails {

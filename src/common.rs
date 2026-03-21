@@ -1,5 +1,5 @@
 use crate::stats::StatsFlags;
-use anyhow::{bail, Context, Result};
+use anyhow::{Context, Result, bail};
 use common::{database, source::Source, *};
 use log::error;
 use meval::eval_str;
@@ -33,12 +33,8 @@ pub fn skill(s: &str) -> String {
         "herblore" | "herb" => "Herblore",
         "agility" | "agil" => "Agility",
         "thieving" | "thief" => "Thieving",
-        "slayer" | "slay" => "Slayer",
         "farming" | "farm" => "Farming",
-        "runecraft" | "rc" => "Runecraft",
-        "hunter" | "hunt" => "Hunter",
-        "construction" | "con" => "Construction",
-        "sail" | "sailing" => "Sailing",
+        "runecraft" | "rc" => "Runecrafting",
         _ => "",
     }
     .to_string()
@@ -66,12 +62,8 @@ pub fn skills() -> Vec<String> {
         "Herblore",
         "Agility",
         "Thieving",
-        "Slayer",
         "Farming",
-        "Runecraft",
-        "Hunter",
-        "Construction",
-        "Sailing",
+        "Runecrafting",
     ]
     .iter()
     .map(|x| x.to_string())
@@ -153,7 +145,7 @@ impl Combat {
             (
                 skill.to_string(),
                 match stats.hiscores.skill(skill) {
-                    Some(entry) => match entry.level() {
+                    Some(entry) => match entry.level {
                         99..=126 => 0.0,
                         _ => match skill.to_string().as_str() {
                             "Attack" | "Strength" => level_difference / 0.325,
@@ -244,47 +236,30 @@ impl Stats {
     }
 
     pub fn level(&self, skill: &str) -> u32 {
-        self.skill_listing(skill).level()
+        self.skill_listing(skill).level
     }
 
     pub fn rank(&self, skill: &str) -> u32 {
-        self.skill_listing(skill).rank()
+        self.skill_listing(skill).rank
     }
 
     pub fn xp(&self, skill: &str) -> u32 {
-        self.skill_listing(skill).xp()
+        self.skill_listing(skill).xp
     }
 
     pub fn skill_listing(&self, skill: &str) -> Listing {
-        let mut results = self
-            .hiscores
+        self.hiscores
             .0
             .iter()
-            .map(|listing| match listing {
-                Listing::Entry(entry) => {
-                    if skill.eq(&entry.name.to_string()) {
-                        Some(entry)
-                    } else {
-                        None
-                    }
-                }
-                _ => None,
-            })
-            .collect::<Vec<Option<&Entry>>>();
-        results.retain(|result| result.is_some());
-
-        if let Some(Some(entry)) = results.pop() {
-            Listing::Entry(entry.clone())
-        } else {
-            Listing::Entry(Entry {
+            .find(|listing| skill.eq(&listing.name.to_string()))
+            .cloned()
+            .unwrap_or(Listing {
                 name: HiscoreName::None,
                 rank: 0,
                 level: 0,
                 xp: 0,
             })
-        }
     }
-
 }
 
 #[derive(Copy, Clone, Debug, PartialEq)]
@@ -308,101 +283,9 @@ pub enum HiscoreName {
     Herblore,
     Agility,
     Thieving,
-    Slayer,
     Farming,
-    Runecraft,
-    Hunter,
-    Construction,
-    Sailing,
-    Gridmaster,
-    Leagues,
-    BountyHunterHunter,
-    BountyHunterRogue,
-    BountyHunterLegacyHunter,
-    BountyHunterLegacyRogue,
+    Runecrafting,
     None,
-    ClueScrollAll,
-    ClueScrollBeginner,
-    ClueScrollEasy,
-    ClueScrollMedium,
-    ClueScrollHard,
-    ClueScrollElite,
-    ClueScrollMaster,
-    LMS,
-    PvpArena,
-    SoulWarsZeal,
-    GotrRifts,
-    ColosseumGlory,
-    CollectionsLogged,
-    AbyssalSire,
-    AlchemicalHydra,
-    Amoxliatl,
-    Araxxor,
-    Artio,
-    BarrowsChests,
-    Brutus,
-    Bryophyta,
-    Callisto,
-    Calvarion,
-    Cerberus,
-    CoX,
-    CoXChallenge,
-    ChaosElemental,
-    ChaosFanatic,
-    CommanderZilyana,
-    CorporealBeast,
-    CrazyArchaeologist,
-    DagannothPrime,
-    DagannothRex,
-    DagannothSupreme,
-    DerangedArchaeologist,
-    DoomofMokhaiotl,
-    DukeSucellus,
-    GeneralGraardor,
-    GiantMole,
-    GrotesqueGuardians,
-    Hespori,
-    KalphiteQueen,
-    KingBlackDragon,
-    Kraken,
-    KreeArra,
-    KrilTsutsaroth,
-    LunarChests,
-    Mimic,
-    Nex,
-    Nightmare,
-    PhosanisNightmare,
-    Obor,
-    PhantomMuspah,
-    Sarachnis,
-    Scorpia,
-    Scurrius,
-    ShellbaneGryphon,
-    Skotizo,
-    SolHeredit,
-    Spindel,
-    Tempoross,
-    Gauntlet,
-    CorruptedGauntlet,
-    Hueycoatl,
-    RoyalTitans,
-    Leviathan,
-    Whisperer,
-    ToB,
-    ToBHard,
-    ThermonuclearSmokeDevil,
-    ToA,
-    ToAExpert,
-    TzKalZuk,
-    TzTokJad,
-    Vardorvis,
-    Venenatis,
-    Vetion,
-    Vorkath,
-    Wintertodt,
-    Yama,
-    Zalcano,
-    Zulrah,
 }
 
 impl HiscoreName {
@@ -427,101 +310,9 @@ impl HiscoreName {
             Self::Herblore,
             Self::Agility,
             Self::Thieving,
-            Self::Slayer,
             Self::Farming,
-            Self::Runecraft,
-            Self::Hunter,
-            Self::Construction,
-            Self::Sailing,
-            Self::Gridmaster,
-            Self::Leagues,
-            Self::BountyHunterHunter,
-            Self::BountyHunterRogue,
-            Self::BountyHunterLegacyHunter,
-            Self::BountyHunterLegacyRogue,
+            Self::Runecrafting,
             Self::None,
-            Self::ClueScrollAll,
-            Self::ClueScrollBeginner,
-            Self::ClueScrollEasy,
-            Self::ClueScrollMedium,
-            Self::ClueScrollHard,
-            Self::ClueScrollElite,
-            Self::ClueScrollMaster,
-            Self::LMS,
-            Self::PvpArena,
-            Self::SoulWarsZeal,
-            Self::GotrRifts,
-            Self::ColosseumGlory,
-            Self::CollectionsLogged,
-            Self::AbyssalSire,
-            Self::AlchemicalHydra,
-            Self::Amoxliatl,
-            Self::Araxxor,
-            Self::Artio,
-            Self::BarrowsChests,
-            Self::Brutus,
-            Self::Bryophyta,
-            Self::Callisto,
-            Self::Calvarion,
-            Self::Cerberus,
-            Self::CoX,
-            Self::CoXChallenge,
-            Self::ChaosElemental,
-            Self::ChaosFanatic,
-            Self::CommanderZilyana,
-            Self::CorporealBeast,
-            Self::CrazyArchaeologist,
-            Self::DagannothPrime,
-            Self::DagannothRex,
-            Self::DagannothSupreme,
-            Self::DerangedArchaeologist,
-            Self::DoomofMokhaiotl,
-            Self::DukeSucellus,
-            Self::GeneralGraardor,
-            Self::GiantMole,
-            Self::GrotesqueGuardians,
-            Self::Hespori,
-            Self::KalphiteQueen,
-            Self::KingBlackDragon,
-            Self::Kraken,
-            Self::KreeArra,
-            Self::KrilTsutsaroth,
-            Self::LunarChests,
-            Self::Mimic,
-            Self::Nex,
-            Self::Nightmare,
-            Self::PhosanisNightmare,
-            Self::Obor,
-            Self::PhantomMuspah,
-            Self::Sarachnis,
-            Self::Scorpia,
-            Self::Scurrius,
-            Self::ShellbaneGryphon,
-            Self::Skotizo,
-            Self::SolHeredit,
-            Self::Spindel,
-            Self::Tempoross,
-            Self::Gauntlet,
-            Self::CorruptedGauntlet,
-            Self::Hueycoatl,
-            Self::RoyalTitans,
-            Self::Leviathan,
-            Self::Whisperer,
-            Self::ToB,
-            Self::ToBHard,
-            Self::ThermonuclearSmokeDevil,
-            Self::ToA,
-            Self::ToAExpert,
-            Self::TzKalZuk,
-            Self::TzTokJad,
-            Self::Vardorvis,
-            Self::Venenatis,
-            Self::Vetion,
-            Self::Vorkath,
-            Self::Wintertodt,
-            Self::Yama,
-            Self::Zalcano,
-            Self::Zulrah,
         ]
     }
 
@@ -539,42 +330,11 @@ impl HiscoreName {
     }
 
     pub fn to(&self) -> Listing {
-        match self {
-            HiscoreName::Overall
-            | HiscoreName::Attack
-            | HiscoreName::Defence
-            | HiscoreName::Strength
-            | HiscoreName::Hitpoints
-            | HiscoreName::Ranged
-            | HiscoreName::Prayer
-            | HiscoreName::Magic
-            | HiscoreName::Cooking
-            | HiscoreName::Woodcutting
-            | HiscoreName::Fletching
-            | HiscoreName::Fishing
-            | HiscoreName::Firemaking
-            | HiscoreName::Crafting
-            | HiscoreName::Smithing
-            | HiscoreName::Mining
-            | HiscoreName::Herblore
-            | HiscoreName::Agility
-            | HiscoreName::Thieving
-            | HiscoreName::Slayer
-            | HiscoreName::Farming
-            | HiscoreName::Runecraft
-            | HiscoreName::Hunter
-            | HiscoreName::Construction
-            | HiscoreName::Sailing => Listing::Entry(Entry {
-                name: self.to_owned(),
-                rank: 0,
-                level: 0,
-                xp: 0,
-            }),
-            _ => Listing::SubEntry(SubEntry {
-                name: self.to_owned(),
-                rank: 0,
-                xp: 0,
-            }),
+        Listing {
+            name: self.to_owned(),
+            rank: 0,
+            level: 0,
+            xp: 0,
         }
     }
 }
@@ -618,107 +378,14 @@ impl Display for HiscoreName {
             Self::Herblore => "Herblore",
             Self::Agility => "Agility",
             Self::Thieving => "Thieving",
-            Self::Slayer => "Slayer",
             Self::Farming => "Farming",
-            Self::Runecraft => "Runecraft",
-            Self::Hunter => "Hunter",
-            Self::Construction => "Construction",
-            Self::Sailing => "Sailing",
-            Self::Gridmaster => "Gridmaster",
-            Self::Leagues => "Leagues",
-            Self::BountyHunterHunter => "Bounty Hunter Hunter",
-            Self::BountyHunterRogue => "Bounty Hunter Rogue",
-            Self::BountyHunterLegacyHunter => "Bounty Hunter Legacy Hunter",
-            Self::BountyHunterLegacyRogue => "Bounty Hunter Legacy Rogue",
-            Self::ClueScrollAll => "All Clue Scrolls",
-            Self::ClueScrollBeginner => "Beginner Clue Scrolls",
-            Self::ClueScrollEasy => "Easy Clue Scrolls",
-            Self::ClueScrollMedium => "Medium Clue Scrolls",
-            Self::ClueScrollHard => "Hard Clue Scrolls",
-            Self::ClueScrollElite => "Elite Clue Scrolls",
-            Self::ClueScrollMaster => "Master Clue Scrolls",
-            Self::LMS => "LMS",
-            Self::PvpArena => "PVP Arena",
-            Self::SoulWarsZeal => "Soul Wars Zeal",
-            Self::GotrRifts => "GotR Rifts",
-            Self::ColosseumGlory => "Colosseum Glory",
-            Self::CollectionsLogged => "Collections Logged",
-            Self::AbyssalSire => "Abyssal Sire",
-            Self::AlchemicalHydra => "Alchemical Hydra",
-            Self::Amoxliatl => "Amoxliatl",
-            Self::Araxxor => "Araxxor",
-            Self::Artio => "Artio",
-            Self::BarrowsChests => "Barrows Chests",
-            Self::Brutus => "Brutus",
-            Self::Bryophyta => "Bryophyta",
-            Self::Callisto => "Callisto",
-            Self::Calvarion => "Calvar'ion",
-            Self::Cerberus => "Cerberus",
-            Self::CoX => "CoX",
-            Self::CoXChallenge => "CoX: Challenge",
-            Self::ChaosElemental => "Chaos Elemental",
-            Self::ChaosFanatic => "Chaos Fanatic",
-            Self::CommanderZilyana => "Commander Zilyana",
-            Self::CorporealBeast => "Corporeal Beast",
-            Self::CrazyArchaeologist => "Crazy Archaeologist",
-            Self::DagannothPrime => "Dagannoth Prime",
-            Self::DagannothRex => "Dagannoth Rex",
-            Self::DagannothSupreme => "Dagannoth Supreme",
-            Self::DerangedArchaeologist => "Deranged Archaeologist",
-            Self::DoomofMokhaiotl => "Doom of Mokhaiotl",
-            Self::DukeSucellus => "Duke Sucellus",
-            Self::GeneralGraardor => "General Graardor",
-            Self::GiantMole => "Giant Mole",
-            Self::GrotesqueGuardians => "Grotesque Guardians",
-            Self::Hespori => "Hespori",
-            Self::KalphiteQueen => "Kalphite Queen",
-            Self::KingBlackDragon => "King Black Dragon",
-            Self::Kraken => "Kraken",
-            Self::KreeArra => "Kree'Arra",
-            Self::KrilTsutsaroth => "K'ril Tsutsaroth",
-            Self::LunarChests => "Lunar Chests",
-            Self::Mimic => "Mimic",
-            Self::Nex => "Nex",
-            Self::Nightmare => "Nightmare",
-            Self::PhosanisNightmare => "Phosani's Nightmare",
-            Self::Obor => "Obor",
-            Self::PhantomMuspah => "Phantom Muspah",
-            Self::Sarachnis => "Sarachnis",
-            Self::Scorpia => "Scorpia",
-            Self::Scurrius => "Scurrius",
-            Self::ShellbaneGryphon => "Shellbane Gryphon",
-            Self::Skotizo => "Skotizo",
-            Self::SolHeredit => "Sol Heredit",
-            Self::Spindel => "Spindel",
-            Self::Tempoross => "Tempoross",
-            Self::Gauntlet => "Gauntlet",
-            Self::CorruptedGauntlet => "Corrupted Gauntlet",
-            Self::Hueycoatl => "Hueycoatl",
-            Self::RoyalTitans => "Royal Titans",
-            Self::Leviathan => "Leviathan",
-            Self::Whisperer => "Whisperer",
-            Self::ToB => "ToB",
-            Self::ToBHard => "ToB: Hard",
-            Self::ThermonuclearSmokeDevil => "Thermonuclear Smoke Devil",
-            Self::ToA => "ToA",
-            Self::ToAExpert => "ToA: Expert",
-            Self::TzKalZuk => "TzKal-Zuk",
-            Self::TzTokJad => "TzTok-Jad",
-            Self::Vardorvis => "Vardorvis",
-            Self::Venenatis => "Venenatis",
-            Self::Vetion => "Vet'ion",
-            Self::Vorkath => "Vorkath",
-            Self::Wintertodt => "Wintertodt",
-            Self::Yama => "Yama",
-            Self::Zalcano => "Zalcano",
-            Self::Zulrah => "Zulrah",
+            Self::Runecrafting => "Runecrafting",
             Self::None => "",
         };
 
         f.write_fmt(format_args!("{}", name))
     }
 }
-
 
 pub fn collect_hiscores(input: &str, source: &Source) -> Result<Listings> {
     let nick = source.author.nick.to_string();
@@ -781,16 +448,34 @@ pub fn collect_hiscores(input: &str, source: &Source) -> Result<Listings> {
             continue;
         }
 
-        let rank: u32 = caps.get(2).unwrap().as_str().replace(",", "").parse().unwrap_or(0);
-        let level: u32 = caps.get(3).unwrap().as_str().replace(",", "").parse().unwrap_or(0);
-        let xp: u32 = caps.get(4).unwrap().as_str().replace(",", "").parse().unwrap_or(0);
+        let rank: u32 = caps
+            .get(2)
+            .unwrap()
+            .as_str()
+            .replace(",", "")
+            .parse()
+            .unwrap_or(0);
+        let level: u32 = caps
+            .get(3)
+            .unwrap()
+            .as_str()
+            .replace(",", "")
+            .parse()
+            .unwrap_or(0);
+        let xp: u32 = caps
+            .get(4)
+            .unwrap()
+            .as_str()
+            .replace(",", "")
+            .parse()
+            .unwrap_or(0);
 
-        listings.push(Listing::Entry(Entry {
+        listings.push(Listing {
             name,
             rank,
             level,
             xp,
-        }));
+        });
     }
 
     if listings.is_empty() {
@@ -809,43 +494,19 @@ impl Listings {
     }
 
     pub fn skill(&self, skill: &str) -> Option<Listing> {
-        let mut results = self
-            .0
+        self.0
             .iter()
-            .map(|listing| {
-                if listing.name().to_string().eq(skill) {
-                    Some(listing.clone())
-                } else {
-                    None
-                }
-            })
-            .collect::<Vec<Option<Listing>>>();
-
-        results.retain(|result| !result.is_none());
-
-        match results.pop() {
-            Some(result) => match result {
-                Some(listing) => Some(listing.clone()),
-                None => None,
-            },
-            None => None,
-        }
+            .find(|listing| listing.name.to_string().eq(skill))
+            .cloned()
     }
 
     pub fn iter(&'_ self) -> Iter<'_, Listing> {
         self.0.iter()
     }
 
-    pub fn retain_entries(&mut self) {
-        self.0.retain(|listing| match listing {
-            Listing::Entry(_) => true,
-            Listing::SubEntry(_) => false,
-        });
-    }
-
     pub fn retain_combat(&mut self) {
-        self.0.retain(|listing| match listing {
-            Listing::Entry(entry) => vec![
+        self.0.retain(|listing| {
+            vec![
                 "Attack",
                 "Strength",
                 "Defence",
@@ -854,24 +515,25 @@ impl Listings {
                 "Ranged",
                 "Magic",
             ]
-            .contains(&entry.name.to_string().as_str()),
-            Listing::SubEntry(_) => false,
+            .contains(&listing.name.to_string().as_str())
         });
     }
 
     pub fn filter(&mut self, flags: &StatsFlags) {
         self.0.retain(|listing| {
-            listing.name().ne(&HiscoreName::Overall)
-                && ((listing.level() > 0 && flags.filter(&listing.level()))
-                    || (listing.level() == 0 && flags.filter(&listing.xp())))
+            listing.name.ne(&HiscoreName::Overall)
+                && ((listing.level > 0 && flags.filter(&listing.level))
+                    || (listing.level == 0 && flags.filter(&listing.xp)))
         })
     }
 }
 
 #[derive(Clone, Debug)]
-pub enum Listing {
-    Entry(Entry),
-    SubEntry(SubEntry),
+pub struct Listing {
+    pub name: HiscoreName,
+    pub rank: u32,
+    pub level: u32,
+    pub xp: u32,
 }
 
 impl Listing {
@@ -888,37 +550,8 @@ impl Listing {
     }
 
     pub fn actual_level(&self) -> u32 {
-        xp_to_level(self.xp())
+        xp_to_level(self.xp)
     }
-
-    pub fn level(&self) -> u32 {
-        match self {
-            Listing::Entry(entry) => entry.level,
-            _ => 0,
-        }
-    }
-
-    pub fn name(&self) -> HiscoreName {
-        match self {
-            Listing::Entry(entry) => entry.name,
-            Listing::SubEntry(subentry) => subentry.name,
-        }
-    }
-
-    pub fn rank(&self) -> u32 {
-        match self {
-            Listing::Entry(entry) => entry.rank,
-            Listing::SubEntry(subentry) => subentry.rank,
-        }
-    }
-
-    pub fn xp(&self) -> u32 {
-        match self {
-            Listing::Entry(entry) => entry.xp,
-            Listing::SubEntry(subentry) => subentry.xp,
-        }
-    }
-
 }
 
 impl<'a> FromIterator<Listing> for Listings {
@@ -942,57 +575,7 @@ impl<'a> FromIterator<&'a HiscoreName> for Listing {
     }
 }
 
-impl<'a> FromIterator<(usize, &'a &'a str)> for Listings {
-    fn from_iter<T: IntoIterator<Item = (usize, &'a &'a str)>>(iter: T) -> Self {
-        let mut it = iter.into_iter();
-
-        let mut listings = vec![];
-
-        while let Some(index) = it.next() {
-            let i = index.0;
-            let name = HiscoreName::all()
-                .get(i)
-                .unwrap_or(&HiscoreName::None)
-                .to_owned();
-            let split = index.1.split(",").collect::<Vec<&str>>();
-
-            let listing = match split.len() {
-                ..=2 => Listing::SubEntry(SubEntry {
-                    name,
-                    rank: split.get(0).unwrap_or(&"0").parse().unwrap_or(0),
-                    xp: split.get(1).unwrap_or(&"0").parse().unwrap_or(0),
-                }),
-                _ => Listing::Entry(Entry {
-                    name,
-                    rank: split[0].parse().unwrap_or(0),
-                    level: split[1].parse().unwrap_or(0),
-                    xp: split[2].parse().unwrap_or(0),
-                }),
-            };
-
-            listings.push(listing);
-        }
-
-        Self(listings)
-    }
-}
-
-#[derive(Clone, Debug)]
-pub struct SubEntry {
-    pub name: HiscoreName,
-    pub rank: u32,
-    pub xp: u32,
-}
-
-#[derive(Clone, Debug)]
-pub struct Entry {
-    pub name: HiscoreName,
-    pub rank: u32,
-    pub level: u32,
-    pub xp: u32,
-}
-
-impl Display for Entry {
+impl Display for Listing {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(
             f,
@@ -1156,7 +739,7 @@ mod tests {
     fn test_hiscore_name_from_str() {
         assert_eq!(HiscoreName::from("Attack"), HiscoreName::Attack);
         assert_eq!(HiscoreName::from("Agility"), HiscoreName::Agility);
-        assert_eq!(HiscoreName::from("Runecraft"), HiscoreName::Runecraft);
+        assert_eq!(HiscoreName::from("Runecrafting"), HiscoreName::Runecrafting);
         assert_eq!(HiscoreName::from("nonexistent_xyz"), HiscoreName::None);
     }
 
@@ -1188,74 +771,49 @@ mod tests {
 
     #[test]
     fn test_hiscore_name_to_listing() {
-        match HiscoreName::Attack.to() {
-            Listing::Entry(entry) => {
-                assert_eq!(entry.name, HiscoreName::Attack);
-                assert_eq!(entry.rank, 0);
-                assert_eq!(entry.level, 0);
-                assert_eq!(entry.xp, 0);
-            }
-            _ => panic!("Expected Entry"),
-        }
-
-        // Non-skill names become SubEntry
-        match HiscoreName::LMS.to() {
-            Listing::SubEntry(sub) => {
-                assert_eq!(sub.name, HiscoreName::LMS);
-            }
-            _ => panic!("Expected SubEntry"),
-        }
+        let listing = HiscoreName::Attack.to();
+        assert_eq!(listing.name, HiscoreName::Attack);
+        assert_eq!(listing.rank, 0);
+        assert_eq!(listing.level, 0);
+        assert_eq!(listing.xp, 0);
     }
 
     // --- Listing tests ---
 
     #[test]
-    fn test_listing_entry_accessors() {
-        let listing = Listing::Entry(Entry {
+    fn test_listing_accessors() {
+        let listing = Listing {
             name: HiscoreName::Mining,
             rank: 500,
             level: 72,
             xp: 912345,
-        });
-        assert_eq!(listing.name(), HiscoreName::Mining);
-        assert_eq!(listing.rank(), 500);
-        assert_eq!(listing.level(), 72);
-        assert_eq!(listing.xp(), 912345);
-    }
-
-    #[test]
-    fn test_listing_subentry_accessors() {
-        let listing = Listing::SubEntry(SubEntry {
-            name: HiscoreName::LMS,
-            rank: 10,
-            xp: 200,
-        });
-        assert_eq!(listing.name(), HiscoreName::LMS);
-        assert_eq!(listing.rank(), 10);
-        assert_eq!(listing.level(), 0);
-        assert_eq!(listing.xp(), 200);
+        };
+        assert_eq!(listing.name, HiscoreName::Mining);
+        assert_eq!(listing.rank, 500);
+        assert_eq!(listing.level, 72);
+        assert_eq!(listing.xp, 912345);
     }
 
     #[test]
     fn test_listing_actual_level() {
-        let listing = Listing::Entry(Entry {
+        let listing = Listing {
             name: HiscoreName::Attack,
             rank: 1,
             level: 50,
             xp: 13034431, // 99 xp
-        });
+        };
         assert_eq!(listing.actual_level(), 99);
     }
 
     #[test]
     fn test_listing_next_level_default() {
         use crate::stats::{FilterBy, MutuallyExclusiveFlag, Prefix};
-        let listing = Listing::Entry(Entry {
+        let listing = Listing {
             name: HiscoreName::Attack,
             rank: 1,
             level: 50,
             xp: 166636, // level 55
-        });
+        };
         let flags = StatsFlags {
             filter_by: FilterBy::None,
             filter_at: 0,
@@ -1271,12 +829,12 @@ mod tests {
     #[test]
     fn test_listing_next_level_with_end() {
         use crate::stats::{FilterBy, MutuallyExclusiveFlag, Prefix};
-        let listing = Listing::Entry(Entry {
+        let listing = Listing {
             name: HiscoreName::Attack,
             rank: 1,
             level: 50,
             xp: 166636,
-        });
+        };
         let flags = StatsFlags {
             filter_by: FilterBy::None,
             filter_at: 0,
@@ -1294,8 +852,18 @@ mod tests {
     #[test]
     fn test_listings_new_and_skill() {
         let listings = Listings::new(vec![
-            Listing::Entry(Entry { name: HiscoreName::Attack, rank: 1, level: 99, xp: 13034431 }),
-            Listing::Entry(Entry { name: HiscoreName::Mining, rank: 50, level: 72, xp: 912345 }),
+            Listing {
+                name: HiscoreName::Attack,
+                rank: 1,
+                level: 99,
+                xp: 13034431,
+            },
+            Listing {
+                name: HiscoreName::Mining,
+                rank: 50,
+                level: 72,
+                xp: 912345,
+            },
         ]);
         assert!(listings.skill("Attack").is_some());
         assert!(listings.skill("Mining").is_some());
@@ -1303,26 +871,30 @@ mod tests {
     }
 
     #[test]
-    fn test_listings_retain_entries() {
-        let mut listings = Listings::new(vec![
-            Listing::Entry(Entry { name: HiscoreName::Attack, rank: 1, level: 99, xp: 13034431 }),
-            Listing::SubEntry(SubEntry { name: HiscoreName::LMS, rank: 10, xp: 200 }),
-        ]);
-        listings.retain_entries();
-        assert_eq!(listings.iter().count(), 1);
-        assert_eq!(listings.iter().next().unwrap().name(), HiscoreName::Attack);
-    }
-
-    #[test]
     fn test_listings_retain_combat() {
         let mut listings = Listings::new(vec![
-            Listing::Entry(Entry { name: HiscoreName::Attack, rank: 1, level: 99, xp: 13034431 }),
-            Listing::Entry(Entry { name: HiscoreName::Mining, rank: 50, level: 72, xp: 912345 }),
-            Listing::Entry(Entry { name: HiscoreName::Defence, rank: 5, level: 80, xp: 2000000 }),
+            Listing {
+                name: HiscoreName::Attack,
+                rank: 1,
+                level: 99,
+                xp: 13034431,
+            },
+            Listing {
+                name: HiscoreName::Mining,
+                rank: 50,
+                level: 72,
+                xp: 912345,
+            },
+            Listing {
+                name: HiscoreName::Defence,
+                rank: 5,
+                level: 80,
+                xp: 2000000,
+            },
         ]);
         listings.retain_combat();
         assert_eq!(listings.iter().count(), 2);
-        let names: Vec<_> = listings.iter().map(|l| l.name()).collect();
+        let names: Vec<_> = listings.iter().map(|l| l.name).collect();
         assert!(names.contains(&HiscoreName::Attack));
         assert!(names.contains(&HiscoreName::Defence));
         assert!(!names.contains(&HiscoreName::Mining));
@@ -1332,9 +904,24 @@ mod tests {
     fn test_listings_filter() {
         use crate::stats::{FilterBy, MutuallyExclusiveFlag, Prefix};
         let mut listings = Listings::new(vec![
-            Listing::Entry(Entry { name: HiscoreName::Overall, rank: 1, level: 500, xp: 1000000 }),
-            Listing::Entry(Entry { name: HiscoreName::Attack, rank: 1, level: 99, xp: 13034431 }),
-            Listing::Entry(Entry { name: HiscoreName::Mining, rank: 50, level: 30, xp: 13363 }),
+            Listing {
+                name: HiscoreName::Overall,
+                rank: 1,
+                level: 500,
+                xp: 1000000,
+            },
+            Listing {
+                name: HiscoreName::Attack,
+                rank: 1,
+                level: 99,
+                xp: 13034431,
+            },
+            Listing {
+                name: HiscoreName::Mining,
+                rank: 50,
+                level: 30,
+                xp: 13363,
+            },
         ]);
         let flags = StatsFlags {
             filter_by: FilterBy::GreaterThan,
@@ -1348,7 +935,7 @@ mod tests {
         listings.filter(&flags);
         // Overall is always filtered out, Mining level 30 < 50, only Attack remains
         assert_eq!(listings.iter().count(), 1);
-        assert_eq!(listings.iter().next().unwrap().name(), HiscoreName::Attack);
+        assert_eq!(listings.iter().next().unwrap().name, HiscoreName::Attack);
     }
 
     // --- skill_id / skill_by_id tests ---
@@ -1408,23 +995,16 @@ mod tests {
         assert_eq!(skill("agil"), "Agility");
         assert_eq!(skill("thieving"), "Thieving");
         assert_eq!(skill("thief"), "Thieving");
-        assert_eq!(skill("slayer"), "Slayer");
-        assert_eq!(skill("slay"), "Slayer");
         assert_eq!(skill("farming"), "Farming");
         assert_eq!(skill("farm"), "Farming");
-        assert_eq!(skill("runecraft"), "Runecraft");
-        assert_eq!(skill("rc"), "Runecraft");
-        assert_eq!(skill("hunter"), "Hunter");
-        assert_eq!(skill("hunt"), "Hunter");
-        assert_eq!(skill("construction"), "Construction");
-        assert_eq!(skill("con"), "Construction");
-        assert_eq!(skill("sail"), "Sailing");
+        assert_eq!(skill("runecraft"), "Runecrafting");
+        assert_eq!(skill("rc"), "Runecrafting");
         assert_eq!(skill("invalid"), "");
     }
 
     #[test]
     fn test_skills() {
-        assert_eq!(skills().len(), 25,);
+        assert_eq!(skills().len(), 21);
         assert_eq!(
             skills(),
             vec![
@@ -1447,12 +1027,8 @@ mod tests {
                 HiscoreName::Herblore,
                 HiscoreName::Agility,
                 HiscoreName::Thieving,
-                HiscoreName::Slayer,
                 HiscoreName::Farming,
-                HiscoreName::Runecraft,
-                HiscoreName::Hunter,
-                HiscoreName::Construction,
-                HiscoreName::Sailing,
+                HiscoreName::Runecrafting,
             ]
             .iter()
             .map(|x| x.to_string())
@@ -1560,5 +1136,4 @@ mod tests {
         assert_eq!(xp_to_level(188884740), 126);
         assert_eq!(xp_to_level(200000000), 126);
     }
-
 }

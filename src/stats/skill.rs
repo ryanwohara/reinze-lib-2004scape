@@ -2,17 +2,17 @@ use crate::common::{skill_by_id, skill_id, skills};
 use crate::stats::agility::{Agility, AgilityDetails};
 use crate::stats::cooking::{Cooking, CookingDetails};
 use crate::stats::crafting::{Crafting, CraftingDetails};
-use crate::stats::firemaking::{Firemaking, FiremakingDetails, FiremakingMultipliers};
-use crate::stats::fishing::{Fishing, FishingDetails, FishingMultipliers};
+use crate::stats::firemaking::{Firemaking, FiremakingDetails};
+use crate::stats::fishing::{Fishing, FishingDetails};
 use crate::stats::fletching::{Fletching, FletchingDetails};
 use crate::stats::herblore::{Herblore, HerbloreDetails};
 use crate::stats::magic::{Magic, MagicDetails};
-use crate::stats::mining::{Mining, MiningDetails, MiningMultipliers};
+use crate::stats::mining::{Mining, MiningDetails};
 use crate::stats::prayer::{Prayer, PrayerDetails, PrayerMultipliers};
-use crate::stats::runecraft::{Runecraft, RunecraftDetails, RunecraftMultipliers};
+use crate::stats::runecraft::{Runecraft, RunecraftDetails};
 use crate::stats::smithing::{Smithing, SmithingDetails, SmithingMultipliers};
 use crate::stats::thieving::{Thieving, ThievingDetails};
-use crate::stats::woodcutting::{Woodcutting, WoodcuttingDetails, WoodcuttingMultipliers};
+use crate::stats::woodcutting::{Woodcutting, WoodcuttingDetails};
 pub use common::source::Source;
 
 pub trait Skill {
@@ -96,7 +96,7 @@ impl Details {
             Details::Magic(_) => "Magic",
             Details::Mining(_) => "Mining",
             Details::Prayer(_) => "Prayer",
-            Details::Runecraft(_) => "Runecraft",
+            Details::Runecraft(_) => "Runecrafting",
             Details::Smithing(_) => "Smithing",
             Details::Thieving(_) => "Thieving",
             Details::Woodcutting(_) => "Woodcutting",
@@ -124,14 +124,8 @@ pub trait Detail {
 
 #[derive(Clone, Ord, PartialOrd, Eq, PartialEq)]
 pub enum Multipliers {
-    Firemaking(FiremakingMultipliers),
-    Fishing(FishingMultipliers),
-    #[allow(dead_code)]
-    Mining(MiningMultipliers),
     Prayer(PrayerMultipliers),
-    Runecraft(RunecraftMultipliers),
     Smithing(SmithingMultipliers),
-    Woodcutting(WoodcuttingMultipliers),
 }
 
 pub fn details_by_skill_id(id: u32, query: &str) -> Vec<Details> {
@@ -147,7 +141,7 @@ pub fn details_by_skill_id(id: u32, query: &str) -> Vec<Details> {
             "Magic" => Magic::defaults(),
             "Mining" => Mining::defaults(),
             "Prayer" => Prayer::defaults(),
-            "Runecraft" => Runecraft::defaults(),
+            "Runecrafting" => Runecraft::defaults(),
             "Smithing" => Smithing::defaults(),
             "Thieving" => Thieving::defaults(),
             "Woodcutting" => Woodcutting::defaults(),
@@ -178,7 +172,7 @@ pub fn details_by_skill_id(id: u32, query: &str) -> Vec<Details> {
         "Magic" => Magic::search(query).iter().map(|x| x.details()).collect(),
         "Mining" => Mining::search(query).iter().map(|x| x.details()).collect(),
         "Prayer" => Prayer::search(query).iter().map(|x| x.details()).collect(),
-        "Runecraft" => Runecraft::search(query)
+        "Runecrafting" => Runecraft::search(query)
             .iter()
             .map(|x| x.details())
             .collect(),

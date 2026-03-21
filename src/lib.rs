@@ -58,9 +58,9 @@ pub extern "C" fn exported(context: *const PluginContext) -> *mut c_char {
             "combat" | "cmb" => stats::combat(source),
             "help" => Ok(r"combat[N]
 stats[N]"
-            .split("\n")
-            .map(|s| s.to_string())
-            .collect::<Vec<String>>()),
+                .split("\n")
+                .map(|s| s.to_string())
+                .collect::<Vec<String>>()),
             "" => Ok(r"co?mb(at)?\d*$
 stats
 overall

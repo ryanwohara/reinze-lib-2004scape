@@ -3,25 +3,12 @@ use regex::Regex;
 use std::ops::Add;
 
 pub enum Woodcutting {
-    AcheyTreeLogs,
-    Logs,
-    OakLogs,
-    WillowLogs,
-    TeakLogs,
-    JatobaLogs,
-    JuniperLogs,
-    Bark,
-    MapleLogs,
-    MahoganyLogs,
-    ArcticPineLogs,
-    CamphorLogs,
-    YewLogs,
-    BlisterwoodLogs,
-    Sulliusceps,
-    MagicLogs,
-    IronwoodLogs,
-    RedwoodLogs,
-    RosewoodLogs,
+    Regular,
+    Oak,
+    Willow,
+    Maple,
+    Yew,
+    Magic,
 }
 
 impl Skill for Woodcutting {
@@ -30,75 +17,34 @@ impl Skill for Woodcutting {
         Self: Sized,
     {
         vec![
-            Self::AcheyTreeLogs,
-            Self::Logs,
-            Self::OakLogs,
-            Self::WillowLogs,
-            Self::TeakLogs,
-            Self::JatobaLogs,
-            Self::JuniperLogs,
-            Self::Bark,
-            Self::MapleLogs,
-            Self::MahoganyLogs,
-            Self::ArcticPineLogs,
-            Self::CamphorLogs,
-            Self::YewLogs,
-            Self::BlisterwoodLogs,
-            Self::Sulliusceps,
-            Self::MagicLogs,
-            Self::IronwoodLogs,
-            Self::RedwoodLogs,
-            Self::RosewoodLogs,
+            Self::Regular,
+            Self::Oak,
+            Self::Willow,
+            Self::Maple,
+            Self::Yew,
+            Self::Magic,
         ]
     }
 
     fn defaults() -> Vec<Details> {
-        vec![
-            Self::WillowLogs,
-            Self::MapleLogs,
-            Self::YewLogs,
-            Self::MagicLogs,
-            Self::IronwoodLogs,
-            Self::RedwoodLogs,
-            Self::RosewoodLogs,
-        ]
-        .iter()
-        .map(|x| x.details())
-        .collect()
+        Self::all().iter().map(|x| x.details()).collect()
     }
 
     fn details(&self) -> Details {
         let details = match self {
-            Self::AcheyTreeLogs => ("Achey Tree Logs", 1, 25.0),
-            Self::Logs => ("Logs", 1, 25.0),
-            Self::OakLogs => ("Oak Logs", 15, 37.5),
-            Self::WillowLogs => ("Willow Logs", 30, 67.5),
-            Self::TeakLogs => ("Teak Logs", 35, 85.0),
-            Self::JatobaLogs => ("Jatoba Logs", 40, 92.0),
-            Self::JuniperLogs => ("Juniper Logs", 42, 35.0),
-            Self::Bark => ("Bark", 45, 82.5),
-            Self::MapleLogs => ("Maple Logs", 45, 100.0),
-            Self::MahoganyLogs => ("Mahogany Logs", 50, 125.0),
-            Self::ArcticPineLogs => ("Arctic Pine Logs", 54, 40.0),
-            Self::CamphorLogs => ("Camphor Logs", 66, 143.0),
-            Self::YewLogs => ("Yew Logs", 60, 175.0),
-            Self::BlisterwoodLogs => ("Blisterwood Logs", 62, 76.0),
-            Self::Sulliusceps => ("Sulliusceps", 65, 127.0),
-            Self::MagicLogs => ("Magic Logs", 75, 250.0),
-            Self::IronwoodLogs => ("Ironwood Logs", 80, 175.0),
-            Self::RedwoodLogs => ("Redwood Logs", 90, 380.0),
-            Self::RosewoodLogs => ("Rosewood Logs", 92, 212.5),
+            Self::Regular => ("Regular", 1, 25.0),
+            Self::Oak => ("Oak", 15, 37.5),
+            Self::Willow => ("Willow", 30, 67.5),
+            Self::Maple => ("Maple", 45, 100.0),
+            Self::Yew => ("Yew", 60, 175.0),
+            Self::Magic => ("Magic", 75, 250.0),
         };
 
         Details::Woodcutting(WoodcuttingDetails {
             name: details.0.to_owned(),
             level: details.1,
             xp: details.2,
-            multipliers: vec![
-                Multipliers::Woodcutting(WoodcuttingMultipliers::LumberjackOutfit),
-                Multipliers::Woodcutting(WoodcuttingMultipliers::FellingAxeAndRations),
-                Multipliers::Woodcutting(WoodcuttingMultipliers::Both),
-            ],
+            multipliers: vec![],
         })
     }
 
@@ -138,10 +84,6 @@ impl Skill for Woodcutting {
 
 impl Detail for Woodcutting {
     fn multipliers(&self) -> Vec<Multipliers> {
-        if let Details::Woodcutting(obj) = self.details() {
-            return obj.multipliers;
-        }
-
         vec![]
     }
 
@@ -180,7 +122,7 @@ pub struct WoodcuttingDetails {
 
 impl IntoString for WoodcuttingDetails {
     fn to_string(&self, s: &crate::stats::skill::Source, xp_difference: f64) -> String {
-        let mut vec = vec![format!(
+        vec![format!(
             "{}: {}",
             s.c1(self.name.as_str()),
             s.c2(common::commas_from_string(
@@ -188,53 +130,7 @@ impl IntoString for WoodcuttingDetails {
                 "d"
             )
             .as_str())
-        )];
-
-        self.multipliers.iter().for_each(|x| {
-            let a = match x {
-                Multipliers::Woodcutting(x) => x,
-                _ => return,
-            };
-            let d = a.details();
-            vec.push(s.p(format!(
-                "{} {}",
-                s.c1(format!("{}:", d.name.as_str()).as_str()),
-                s.c2(common::commas_from_string(
-                    format!("{}", (xp_difference / (self.xp as f64 * d.value)).ceil()).as_str(),
-                    "d"
-                )
-                .as_str())
-            )
-            .as_str()));
-        });
-
-        vec.join(" ")
+        )]
+        .join(" ")
     }
-}
-
-#[derive(Clone, Ord, PartialOrd, Eq, PartialEq)]
-pub enum WoodcuttingMultipliers {
-    LumberjackOutfit,
-    FellingAxeAndRations,
-    Both,
-}
-
-impl WoodcuttingMultipliers {
-    pub fn details(&self) -> WoodcuttingMultiplierDetails {
-        let details = match self {
-            Self::LumberjackOutfit => ("Outfit", 1.025),
-            Self::FellingAxeAndRations => ("FA&Rations", 1.1),
-            Self::Both => ("Both", 1.025 * 1.1),
-        };
-
-        WoodcuttingMultiplierDetails {
-            name: details.0.to_owned(),
-            value: details.1,
-        }
-    }
-}
-
-pub struct WoodcuttingMultiplierDetails {
-    pub name: String,
-    pub value: f64,
 }
