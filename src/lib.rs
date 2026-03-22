@@ -3,6 +3,7 @@ extern crate core;
 mod common;
 mod level;
 mod rsn;
+mod spell;
 mod stats;
 mod xp;
 
@@ -59,10 +60,12 @@ pub extern "C" fn exported(context: *const PluginContext) -> *mut c_char {
             "combat" | "cmb" => stats::combat(source),
             "experience" | "xperience" | "exp" | "xp" => xp::lookup(&source),
             "level" | "lvl" => level::lookup(&source),
+            "spell" => spell::lookup(&source),
             "rsn" => rsn::process(source),
             "help" => Ok(r"combat[N]
 exp
 level
+spell
 rsn[N]
 stats[N]"
                 .split("\n")
@@ -71,6 +74,7 @@ stats[N]"
             "" => Ok(r"co?mb(at)?\d*$
 x?e?xp(erience)?
 le?ve?l
+spell
 rsn\d*
 stats
 overall

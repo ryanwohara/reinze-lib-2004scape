@@ -5,7 +5,7 @@ mod firemaking;
 mod fishing;
 mod fletching;
 mod herblore;
-mod magic;
+pub mod magic;
 mod mining;
 mod prayer;
 mod runecraft;
