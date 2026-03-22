@@ -1,8 +1,10 @@
 extern crate core;
 
 mod common;
+mod level;
 mod rsn;
 mod stats;
+mod xp;
 
 use ::common::author::Author;
 use ::common::source::Source;
@@ -55,14 +57,20 @@ pub extern "C" fn exported(context: *const PluginContext) -> *mut c_char {
             | "smith" | "mining" | "mine" | "herblore" | "herb" | "agility" | "agil"
             | "thieving" | "thief" | "runecraft" | "rc" => stats::lookup(source),
             "combat" | "cmb" => stats::combat(source),
+            "experience" | "xperience" | "exp" | "xp" => xp::lookup(&source),
+            "level" | "lvl" => level::lookup(&source),
             "rsn" => rsn::process(source),
             "help" => Ok(r"combat[N]
+exp
+level
 rsn[N]
 stats[N]"
                 .split("\n")
                 .map(|s| s.to_string())
                 .collect::<Vec<String>>()),
             "" => Ok(r"co?mb(at)?\d*$
+x?e?xp(erience)?
+le?ve?l
 rsn\d*
 stats
 overall

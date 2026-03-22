@@ -6,6 +6,7 @@ use meval::eval_str;
 use mysql::{prelude::*, *};
 use regex::Regex;
 use reqwest::header::USER_AGENT;
+use serde::Deserialize;
 use std::cmp::PartialEq;
 use std::fmt::{Display, Formatter};
 use std::slice::Iter;
@@ -387,6 +388,41 @@ impl Display for HiscoreName {
     }
 }
 
+#[derive(Deserialize)]
+struct HiscoreEntry {
+    #[serde(rename = "type")]
+    skill_type: u32,
+    level: u32,
+    value: u32,
+    rank: u32,
+}
+
+fn type_to_hiscore_name(skill_type: u32) -> HiscoreName {
+    match skill_type {
+        0 => HiscoreName::Overall,
+        1 => HiscoreName::Attack,
+        2 => HiscoreName::Defence,
+        3 => HiscoreName::Strength,
+        4 => HiscoreName::Hitpoints,
+        5 => HiscoreName::Ranged,
+        6 => HiscoreName::Prayer,
+        7 => HiscoreName::Magic,
+        8 => HiscoreName::Cooking,
+        9 => HiscoreName::Woodcutting,
+        10 => HiscoreName::Fletching,
+        11 => HiscoreName::Fishing,
+        12 => HiscoreName::Firemaking,
+        13 => HiscoreName::Crafting,
+        14 => HiscoreName::Smithing,
+        15 => HiscoreName::Mining,
+        16 => HiscoreName::Herblore,
+        17 => HiscoreName::Agility,
+        18 => HiscoreName::Thieving,
+        21 => HiscoreName::Runecrafting,
+        _ => HiscoreName::None,
+    }
+}
+
 pub fn collect_hiscores(input: &str, source: &Source) -> Result<Listings> {
     let nick = source.author.nick.to_string();
 
@@ -407,74 +443,47 @@ pub fn collect_hiscores(input: &str, source: &Source) -> Result<Listings> {
         .build()
         .context("failed to build HTTP client")?;
 
-    let hiscores_str = match client
-        .get(&format!("https://2004.lostcity.rs/hiscores/player/{}", rsn))
+    let resp = match client
+        .get(&format!(
+            "https://2004.lostcity.rs/api/hiscores/player/{}",
+            rsn
+        ))
         .header(USER_AGENT, "Reinze.com")
         .send()
     {
-        Ok(resp) => {
-            let status = &resp.status();
-            let text = resp.text();
-            match text {
-                Ok(string) => {
-                    if *status == 200 {
-                        string
-                    } else {
-                        bail!("hiscores returned status {}", status);
-                    }
-                }
-                Err(e) => {
-                    error!("{}", e);
-                    bail!("failed to get hiscores response text");
-                }
-            }
-        }
+        Ok(resp) => resp,
         Err(e) => {
             error!("{}", e);
             bail!("failed to make hiscores HTTP request");
         }
     };
 
-    let row_re = Regex::new(
-        r#"class="c">\s*([\w ]+?)\s*</a>\s*</td>\s*<td[^>]*>\s*([\d,]+)\s*</td>\s*<td[^>]*>\s*([\d,]+)\s*</td>\s*<td[^>]*>\s*([\d,]+)\s*</td>"#
-    ).unwrap();
+    let status = resp.status();
+    if status != 200 {
+        bail!("hiscores returned status {}", status);
+    }
+
+    let entries: Vec<HiscoreEntry> = match resp.json() {
+        Ok(entries) => entries,
+        Err(e) => {
+            error!("{}", e);
+            bail!("failed to parse hiscores JSON response");
+        }
+    };
 
     let mut listings = vec![];
 
-    for caps in row_re.captures_iter(&hiscores_str) {
-        let skill_name = caps.get(1).unwrap().as_str().trim();
-        let name = HiscoreName::from(skill_name);
+    for entry in entries {
+        let name = type_to_hiscore_name(entry.skill_type);
         if name == HiscoreName::None {
             continue;
         }
 
-        let rank: u32 = caps
-            .get(2)
-            .unwrap()
-            .as_str()
-            .replace(",", "")
-            .parse()
-            .unwrap_or(0);
-        let level: u32 = caps
-            .get(3)
-            .unwrap()
-            .as_str()
-            .replace(",", "")
-            .parse()
-            .unwrap_or(0);
-        let xp: u32 = caps
-            .get(4)
-            .unwrap()
-            .as_str()
-            .replace(",", "")
-            .parse()
-            .unwrap_or(0);
-
         listings.push(Listing {
             name,
-            rank,
-            level,
-            xp,
+            rank: entry.rank,
+            level: entry.level,
+            xp: entry.value / 10,
         });
     }
 
