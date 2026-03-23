@@ -1,7 +1,9 @@
 extern crate core;
 
+mod boost;
 mod common;
 mod level;
+mod noburn;
 mod rsn;
 mod spell;
 mod stats;
@@ -57,23 +59,29 @@ pub extern "C" fn exported(context: *const PluginContext) -> *mut c_char {
             | "fishing" | "fish" | "firemaking" | "fm" | "crafting" | "craft" | "smithing"
             | "smith" | "mining" | "mine" | "herblore" | "herb" | "agility" | "agil"
             | "thieving" | "thief" | "runecraft" | "rc" => stats::lookup(source),
+            "boost" | "boosts" => boost::lookup(&source),
             "combat" | "cmb" => stats::combat(source),
             "experience" | "xperience" | "exp" | "xp" => xp::lookup(&source),
             "level" | "lvl" => level::lookup(&source),
+            "noburn" | "burn" => noburn::noburn(&source),
             "spell" => spell::lookup(&source),
             "rsn" => rsn::process(source),
-            "help" => Ok(r"combat[N]
+            "help" => Ok(r"boost
+combat[N]
 exp
 level
+noburn
 spell
 rsn[N]
 stats[N]"
                 .split("\n")
                 .map(|s| s.to_string())
                 .collect::<Vec<String>>()),
-            "" => Ok(r"co?mb(at)?\d*$
+            "" => Ok(r"boosts?
+co?mb(at)?\d*$
 x?e?xp(erience)?
 le?ve?l
+(no)?burn
 spell
 rsn\d*
 stats

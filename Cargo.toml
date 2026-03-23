@@ -5,7 +5,7 @@ edition = "2024"
 
 [dependencies]
 anyhow = "1.0.100"
-common = { git = "https://github.com/ryanwohara/reinze-lib-common.git", branch = "main", package = "reinze-lib-common" }
+common = { path = "../reinze-lib-common", package = "reinze-lib-common" }
 log = "0.4"
 meval = { git = "https://github.com/ryanwohara/meval-rs.git", branch = "main" }
 mysql = "27.0.0"

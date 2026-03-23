@@ -1,6 +1,6 @@
 use anyhow::{Result, bail};
 use common::source::Source;
-use common::{database, not_found};
+use common::database;
 use log::error;
 use mysql::{prelude::Queryable, *};
 use std::vec;
@@ -204,7 +204,7 @@ fn list(source: Source) -> Result<Vec<String>> {
             Ok(vec![format!(
                 "{} {}",
                 source.l("RSN"),
-                not_found(
+                source.not_found(
                     mapped
                         .into_iter()
                         .map(|(id, rsn)| source.l(&format!("#{} {}", &id, &rsn)))
