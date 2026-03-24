@@ -100,16 +100,6 @@ pub fn lookup(source: Source) -> Result<Vec<String>> {
     let flags = stats_parameters(&query);
     let cleaned = strip_stats_parameters(&query);
 
-    if flags.search.is_empty() {
-        return Ok(vec![format!(
-            "{} {}",
-            source.l("Track"),
-            source.c1("Usage: -track <player> @<duration> (e.g. -track player @3d)")
-        )]);
-    }
-
-    let duration_str = &flags.search;
-    let hours = snapshot::parse_duration(duration_str)?;
     let rsn = resolve_rsn(cleaned.trim(), &source);
 
     let live_raw = fetch_hiscores_raw(&rsn)?;
@@ -117,24 +107,54 @@ pub fn lookup(source: Source) -> Result<Vec<String>> {
 
     let _ = snapshot::save_snapshot("2004scape", "main", &rsn, &live_raw);
 
-    let old_raw = match snapshot::get_snapshot("2004scape", "main", &rsn, hours)? {
-        Some(data) => data,
-        None => {
-            return Ok(vec![format!(
-                "{} {}",
-                source.l("Track"),
-                source.c1(&format!(
-                    "No snapshot found for {} within {}",
-                    rsn.replace("_", " "),
-                    duration_str
-                ))
-            )]);
+    let (old_raw, duration_str) = if flags.search.is_empty() {
+        // No @duration — use most recent snapshot
+        match snapshot::get_latest_snapshot("2004scape", "main", &rsn)? {
+            Some(data) => (data, "latest".to_string()),
+            None => {
+                return Ok(vec![format!(
+                    "{} {}",
+                    source.l("Track"),
+                    source.c1(&format!(
+                        "No snapshot found for {}",
+                        rsn.replace("_", " ")
+                    ))
+                )]);
+            }
+        }
+    } else {
+        let hours = match snapshot::parse_duration(&flags.search) {
+            Ok(h) => h,
+            Err(_) => {
+                return Ok(vec![format!(
+                    "{} {}",
+                    source.l("Track"),
+                    source.c1(&format!(
+                        "Invalid duration '{}'. Use e.g. @3d, @1w, @12h, @2w3d",
+                        flags.search
+                    ))
+                )]);
+            }
+        };
+        match snapshot::get_snapshot("2004scape", "main", &rsn, hours)? {
+            Some(data) => (data, flags.search.clone()),
+            None => {
+                return Ok(vec![format!(
+                    "{} {}",
+                    source.l("Track"),
+                    source.c1(&format!(
+                        "No snapshot found for {} within {}",
+                        rsn.replace("_", " "),
+                        flags.search
+                    ))
+                )]);
+            }
         }
     };
 
     let old_listings = parse_hiscores_raw(&old_raw)?;
     let changes = diff_listings(&old_listings, &live_listings);
-    Ok(format_changes(&changes, &source, &rsn, duration_str))
+    Ok(format_changes(&changes, &source, &rsn, &duration_str))
 }
 
 /// Called by the bot timer system every 6h.
