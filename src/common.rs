@@ -495,6 +495,7 @@ pub fn parse_hiscores_raw(json: &str) -> Result<Listings> {
 pub fn collect_hiscores(input: &str, source: &Source) -> Result<Listings> {
     let rsn = resolve_rsn(input, source);
     let json = fetch_hiscores_raw(&rsn)?;
+    let _ = common::snapshot::save_snapshot("2004scape", "main", &rsn, &json);
     parse_hiscores_raw(&json)
 }
 
