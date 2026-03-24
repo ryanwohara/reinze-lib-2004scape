@@ -110,7 +110,7 @@ herb(lore)?
 agil(ity)?
 thie(f|ving)
 r(une)?c(raft)?
-track\\d*"
+track\d*"
                 .split("\n")
                 .map(|s| s.to_string())
                 .collect::<Vec<String>>()),
