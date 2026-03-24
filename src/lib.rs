@@ -7,6 +7,7 @@ mod noburn;
 mod rsn;
 mod spell;
 mod stats;
+mod track;
 mod xp;
 
 use ::common::author::Author;
@@ -66,6 +67,8 @@ pub extern "C" fn exported(context: *const PluginContext) -> *mut c_char {
             "noburn" | "burn" => noburn::noburn(&source),
             "spell" => spell::lookup(&source),
             "rsn" => rsn::process(source),
+            "track" => track::lookup(source),
+            "tracksnapshot" => track::snapshot_all(),
             "help" => Ok(r"boost
 combat[N]
 exp
@@ -73,7 +76,8 @@ level
 noburn
 spell
 rsn[N]
-stats[N]"
+stats[N]
+track[N]"
                 .split("\n")
                 .map(|s| s.to_string())
                 .collect::<Vec<String>>()),
@@ -105,10 +109,12 @@ min(e|ing)
 herb(lore)?
 agil(ity)?
 thie(f|ving)
-r(une)?c(raft)?"
+r(une)?c(raft)?
+track\\d*"
                 .split("\n")
                 .map(|s| s.to_string())
                 .collect::<Vec<String>>()),
+            "timers" => Ok(vec!["tracksnapshot:6h".to_string()]),
             _ => Ok(vec![]),
         } {
             Ok(output) => match CString::new(output.join("\n")) {

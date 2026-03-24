@@ -423,10 +423,9 @@ fn type_to_hiscore_name(skill_type: u32) -> HiscoreName {
     }
 }
 
-pub fn collect_hiscores(input: &str, source: &Source) -> Result<Listings> {
+pub fn resolve_rsn(input: &str, source: &Source) -> String {
     let nick = source.author.nick.to_string();
-
-    let rsn = if input.is_empty() {
+    if input.is_empty() {
         get_rsn(source)
             .ok()
             .and_then(|db_rsn| db_rsn.first().map(|db_rsn| from_row(db_rsn.to_owned())))
@@ -436,8 +435,10 @@ pub fn collect_hiscores(input: &str, source: &Source) -> Result<Listings> {
     }
     .split_whitespace()
     .collect::<Vec<&str>>()
-    .join("_");
+    .join("_")
+}
 
+pub fn fetch_hiscores_raw(rsn: &str) -> Result<String> {
     let client = reqwest::blocking::Client::builder()
         .connect_timeout(Duration::new(5, 0))
         .build()
@@ -463,22 +464,19 @@ pub fn collect_hiscores(input: &str, source: &Source) -> Result<Listings> {
         bail!("hiscores returned status {}", status);
     }
 
-    let entries: Vec<HiscoreEntry> = match resp.json() {
-        Ok(entries) => entries,
-        Err(e) => {
-            error!("{}", e);
-            bail!("failed to parse hiscores JSON response");
-        }
-    };
+    resp.text().context("failed to read hiscores response body")
+}
+
+pub fn parse_hiscores_raw(json: &str) -> Result<Listings> {
+    let entries: Vec<HiscoreEntry> =
+        serde_json::from_str(json).context("failed to parse hiscores JSON")?;
 
     let mut listings = vec![];
-
     for entry in entries {
         let name = type_to_hiscore_name(entry.skill_type);
         if name == HiscoreName::None {
             continue;
         }
-
         listings.push(Listing {
             name,
             rank: entry.rank,
@@ -492,6 +490,12 @@ pub fn collect_hiscores(input: &str, source: &Source) -> Result<Listings> {
     }
 
     Ok(Listings::new(listings))
+}
+
+pub fn collect_hiscores(input: &str, source: &Source) -> Result<Listings> {
+    let rsn = resolve_rsn(input, source);
+    let json = fetch_hiscores_raw(&rsn)?;
+    parse_hiscores_raw(&json)
 }
 
 #[derive(Clone, Debug)]
