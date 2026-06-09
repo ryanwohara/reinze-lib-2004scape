@@ -5,10 +5,10 @@ pub fn noburn(s: &Source) -> Result<Vec<String>> {
     let query = &s.query;
 
     let fish: Vec<Fish> = vec![
-        Fish::new("Tuna", 63, 0),
-        Fish::new("Lobster", 74, 74),
-        Fish::new("Swordfish", 86, 81),
-        Fish::new("Shark", 0, 0),
+        Fish::new("Tuna", 63, 0, 0),
+        Fish::new("Lobster", 74, 74, 64),
+        Fish::new("Swordfish", 86, 81, 81),
+        Fish::new("Shark", 0, 0, 94),
     ];
 
     let output: Vec<String> = fish
@@ -27,29 +27,36 @@ struct Fish {
     name: &'static str,
     fire: u32,
     range: u32,
+    gauntlets: u32,
 }
 
 impl Fish {
-    fn new(name: &'static str, fire: u32, range: u32) -> Self {
-        Self { name, fire, range }
+    fn new(name: &'static str, fire: u32, range: u32, gauntlets: u32) -> Self {
+        Self {
+            name,
+            fire,
+            range,
+            gauntlets,
+        }
     }
 
     fn to_string(&self, s: &Source) -> String {
-        format!(
-            "{} {} {}",
+        vec![
             s.c1(self.name),
             s.c2(&if_not_available(self.fire)),
             s.c2(&if_not_available(self.range)),
-        )
+            s.c2(&if_not_available(self.gauntlets)),
+        ]
+        .join(" ")
     }
 }
 
 fn if_not_available(int: u32) -> String {
     if int == 0 {
-        return "N/A".to_string();
+        "N/A".to_string()
+    } else {
+        int.to_string()
     }
-
-    int.to_string()
 }
 
 fn fish_finder(fish: &Fish, query: &str) -> bool {
