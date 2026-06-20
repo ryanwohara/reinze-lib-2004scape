@@ -2,6 +2,7 @@ extern crate core;
 
 mod boost;
 mod common;
+mod coords;
 mod level;
 mod noburn;
 mod rsn;
@@ -61,6 +62,7 @@ pub extern "C" fn exported(context: *const PluginContext) -> *mut c_char {
             | "smith" | "mining" | "mine" | "herblore" | "herb" | "agility" | "agil"
             | "thieving" | "thief" | "runecraft" | "rc" => stats::lookup(source),
             "boost" | "boosts" => boost::lookup(&source),
+            "coords" | "coord" | "clue" => coords::lookup(&source),
             "combat" | "cmb" => stats::combat(source),
             "experience" | "xperience" | "exp" | "xp" => xp::lookup(&source),
             "level" | "lvl" => level::lookup(&source),
@@ -70,6 +72,7 @@ pub extern "C" fn exported(context: *const PluginContext) -> *mut c_char {
             "track" => track::lookup(source),
             "tracksnapshot" => track::snapshot_all(),
             "help" => Ok(r"boost
+coords
 combat[N]
 exp
 level
@@ -82,6 +85,7 @@ track[N]"
                 .map(|s| s.to_string())
                 .collect::<Vec<String>>()),
             "" => Ok(r"boosts?
+(coords?|clue)
 co?mb(at)?\d*$
 x?e?xp(erience)?
 le?ve?l

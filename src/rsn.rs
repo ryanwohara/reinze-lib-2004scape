@@ -1,6 +1,6 @@
 use anyhow::{Result, bail};
-use common::source::Source;
 use common::database;
+use common::source::Source;
 use log::error;
 use mysql::{prelude::Queryable, *};
 use std::vec;

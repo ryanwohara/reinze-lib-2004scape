@@ -1,5 +1,5 @@
-use anyhow::Result;
 use crate::common::{eval_query, xp_to_level};
+use anyhow::Result;
 use common::commas;
 use common::source::Source;
 

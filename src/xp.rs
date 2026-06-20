@@ -1,5 +1,5 @@
-use anyhow::{Result, bail};
 use crate::common::level_to_xp;
+use anyhow::{Result, bail};
 use common::commas;
 use common::source::Source;
 

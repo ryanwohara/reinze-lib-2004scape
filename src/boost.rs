@@ -1,5 +1,5 @@
-use anyhow::Result;
 use crate::common::skill;
+use anyhow::Result;
 use common::source::Source;
 
 pub fn lookup(s: &Source) -> Result<Vec<String>> {
@@ -33,9 +33,7 @@ fn format_skill(skill: &str, s: &Source) -> String {
 
 fn get_modifiers(skill: &str) -> Vec<(String, String)> {
     match skill {
-        "Agility" => vec![
-            ("Summer pie", "+5"),
-        ],
+        "Agility" => vec![("Summer pie", "+5")],
         "Attack" => vec![
             ("Kebab", "+1-3"),
             ("Jangerberries", "+2"),
@@ -47,9 +45,7 @@ fn get_modifiers(skill: &str) -> Vec<(String, String)> {
             ("Chef's Delight", "+1-5"),
             ("Mature Chef's Delight", "+2-6"),
         ],
-        "Crafting" => vec![
-            ("Poison chalice", "+0-1"),
-        ],
+        "Crafting" => vec![("Poison chalice", "+0-1")],
         "Defence" => vec![
             ("Defence potion", "+3-12"),
             ("Super defence", "+5-19"),
@@ -68,30 +64,14 @@ fn get_modifiers(skill: &str) -> Vec<(String, String)> {
             ("Fishing guild", "+7"),
         ],
         "Fletching" => vec![],
-        "Herblore" => vec![
-            ("Greenman's ale", "+1"),
-        ],
-        "Hitpoints" => vec![
-            ("Guthix rest", "+5"),
-            ("Saradomin brew", "+3-16"),
-        ],
-        "Magic" => vec![
-            ("Wizard's mind bomb", "+2-3"),
-            ("Magic potion", "+5"),
-        ],
-        "Mining" => vec![
-            ("Dwarven stout", "+1"),
-        ],
-        "Prayer" => vec![
-            ("Monastery altar", "+2"),
-        ],
-        "Ranged" => vec![
-            ("Ranging potion", "+4-13"),
-        ],
+        "Herblore" => vec![("Greenman's ale", "+1")],
+        "Hitpoints" => vec![("Guthix rest", "+5"), ("Saradomin brew", "+3-16")],
+        "Magic" => vec![("Wizard's mind bomb", "+2-3"), ("Magic potion", "+5")],
+        "Mining" => vec![("Dwarven stout", "+1")],
+        "Prayer" => vec![("Monastery altar", "+2")],
+        "Ranged" => vec![("Ranging potion", "+4-13")],
         "Runecrafting" => vec![],
-        "Smithing" => vec![
-            ("Dwarven stout", "+1"),
-        ],
+        "Smithing" => vec![("Dwarven stout", "+1")],
         "Strength" => vec![
             ("Jangerberries", "+1"),
             ("Beer", "+0-3"),
@@ -109,10 +89,7 @@ fn get_modifiers(skill: &str) -> Vec<(String, String)> {
             ("Autumn sq'irk juice", "+2"),
             ("Summer sq'irk juice", "+3"),
         ],
-        "Woodcutting" => vec![
-            ("Axeman's folly", "+1"),
-            ("Mature axeman's folly", "+2"),
-        ],
+        "Woodcutting" => vec![("Axeman's folly", "+1"), ("Mature axeman's folly", "+2")],
         _ => vec![],
     }
     .into_iter()

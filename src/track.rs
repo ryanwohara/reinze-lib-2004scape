@@ -3,9 +3,7 @@ use common::snapshot;
 use common::source::Source;
 use log::error;
 
-use crate::common::{
-    fetch_hiscores_raw, parse_hiscores_raw, resolve_rsn, HiscoreName, Listings,
-};
+use crate::common::{HiscoreName, Listings, fetch_hiscores_raw, parse_hiscores_raw, resolve_rsn};
 use crate::stats::{stats_parameters, strip_stats_parameters};
 
 pub struct Change {
@@ -51,7 +49,12 @@ fn format_xp_delta(delta: u32) -> String {
     }
 }
 
-pub fn format_changes(changes: &[Change], source: &Source, rsn: &str, duration_str: &str) -> Vec<String> {
+pub fn format_changes(
+    changes: &[Change],
+    source: &Source,
+    rsn: &str,
+    duration_str: &str,
+) -> Vec<String> {
     let display_rsn = rsn.replace("_", " ");
 
     if changes.is_empty() {
@@ -115,10 +118,7 @@ pub fn lookup(source: Source) -> Result<Vec<String>> {
                 return Ok(vec![format!(
                     "{} {}",
                     source.l("Track"),
-                    source.c1(&format!(
-                        "No snapshot found for {}",
-                        rsn.replace("_", " ")
-                    ))
+                    source.c1(&format!("No snapshot found for {}", rsn.replace("_", " ")))
                 )]);
             }
         }
@@ -174,5 +174,9 @@ pub fn snapshot_all() -> Result<Vec<String>> {
         }
     }
 
-    Ok(vec![format!("Snapshotted {}/{} players", count, rsns.len())])
+    Ok(vec![format!(
+        "Snapshotted {}/{} players",
+        count,
+        rsns.len()
+    )])
 }
