@@ -2,11 +2,13 @@ extern crate core;
 
 mod anagram;
 mod boost;
+mod challenge;
 mod common;
 mod coords;
 mod level;
 mod noburn;
 mod rsn;
+mod speakto;
 mod spell;
 mod stats;
 mod track;
@@ -64,23 +66,27 @@ pub extern "C" fn exported(context: *const PluginContext) -> *mut c_char {
             | "thieving" | "thief" | "runecraft" | "rc" => stats::lookup(source),
             "boost" | "boosts" => boost::lookup(&source),
             "anagram" => anagram::lookup(&source),
+            "challenge" => challenge::lookup(&source),
             "coords" | "coord" | "clue" => coords::lookup(&source),
             "combat" | "cmb" => stats::combat(source),
             "experience" | "xperience" | "exp" | "xp" => xp::lookup(&source),
             "level" | "lvl" => level::lookup(&source),
             "noburn" | "burn" => noburn::noburn(&source),
             "spell" => spell::lookup(&source),
+            "speakto" | "speak" => speakto::lookup(&source),
             "rsn" => rsn::process(source),
             "track" => track::lookup(source),
             "tracksnapshot" => track::snapshot_all(),
             "help" => Ok(r"boost
 anagram
+challenge
 coords
 combat[N]
 exp
 level
 noburn
 spell
+speakto
 rsn[N]
 stats[N]
 track[N]"
@@ -89,12 +95,14 @@ track[N]"
                 .collect::<Vec<String>>()),
             "" => Ok(r"boosts?
 anagram
+challenge
 (coords?|clue)
 co?mb(at)?\d*$
 x?e?xp(erience)?
 le?ve?l
 (no)?burn
 spell
+speak(to)?
 rsn\d*
 stats
 overall
