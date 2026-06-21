@@ -1467,7 +1467,6 @@ pub const QUESTIONS: &[(&str, &str)] = &[
     ("Minigame name: Penguin ____ ___ ____?", "Hide and Seek"),
     ("Minigame name: Shooting ____?", "Star"),
     ("Minigame name: Barbarian _______?", "Assault"),
-    ("Minigame name: Burgh de Rott ______?", "Ramble"),
     ("Minigame name: Castle ____?", "Wars"),
     ("Minigame name: Champion _________?", "Challenge"),
     ("Minigame name: Clan ____?", "Wars"),
@@ -2152,10 +2151,6 @@ pub const QUESTIONS: &[(&str, &str)] = &[
     (
         "What level is required to fish sharks with your hands?",
         "96",
-    ),
-    (
-        "Which quest rewards you with a Short cut key, and the ability to play the Brugh dDe Rott Ramble minigame?",
-        "Darkness of Hallowvale",
     ),
     ("A pack yak can hold how many items?", "30"),
     (
