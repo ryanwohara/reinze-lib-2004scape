@@ -14,6 +14,7 @@ mod spell;
 mod stats;
 mod track;
 mod trivia;
+mod worlds;
 mod xp;
 
 use ::common::author::Author;
@@ -38,6 +39,7 @@ le?ve?l
 spell
 speak(to)?
 ^players?$
+^worlds?$
 rsn\d*
 stats
 overall
@@ -123,6 +125,8 @@ pub extern "C" fn exported(context: *const PluginContext) -> *mut c_char {
             "spell" => spell::lookup(&source),
             "speakto" | "speak" => speakto::lookup(&source),
             "players" => players::lookup(&source),
+            "worlds" => worlds::all(&source),
+            "world" => worlds::one(&source),
             "rsn" => rsn::process(source),
             "track" => track::lookup(source),
             "tracksnapshot" => track::snapshot_all(),
@@ -144,6 +148,8 @@ noburn
 spell
 speakto
 players
+worlds
+world [N]
 rsn[N]
 stats[N]
 track[N]

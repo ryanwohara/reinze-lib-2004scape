@@ -1,5 +1,6 @@
 use anyhow::Result;
 use common::source::Source;
+use log::error;
 use std::time::{SystemTime, UNIX_EPOCH};
 
 mod questions;
@@ -12,7 +13,25 @@ const MAX_HINTS: u32 = 3;
 
 /// Entry point: every trivia sub-command is routed here and dispatched by name.
 /// The game is scoped to `s.channel` (the channel the command was used in).
+///
+/// Any error (most likely the database being unavailable) is turned into a
+/// clean message rather than propagated — the game must never panic across the
+/// plugin's FFI boundary.
 pub fn lookup(s: &Source) -> Result<Vec<String>> {
+    match dispatch(s) {
+        Ok(lines) => Ok(lines),
+        Err(e) => {
+            error!("trivia command '{}' failed: {}", s.command, e);
+            Ok(vec![format!(
+                "{} {}",
+                s.l("Trivia"),
+                s.c1("Trivia is temporarily unavailable. Please try again later.")
+            )])
+        }
+    }
+}
+
+fn dispatch(s: &Source) -> Result<Vec<String>> {
     match s.command.as_str() {
         "trivia" => toggle(s),
         "question" | "q" => show_question(s),
