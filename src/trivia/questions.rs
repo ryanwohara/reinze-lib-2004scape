@@ -1194,7 +1194,7 @@ pub const QUESTIONS: &[(&str, &str)] = &[
     ("If you see a silver crown next to a player name, this signals they are a..", "player moderator"),
     ("This type of charm gives the most Xp per monster", "Blue"),
     ("Completing the Rag 'n Bone man Quest gives you the option between what two item rewards?", "Ram Skull Helmet and bone sack"),
-    ("True or False: When you use one glory amulet on the Heroes guild fountain, all other glories in your inventory are charged also?", "True"),
+    ("True or False: When you use one glory amulet on the Heroes guild fountain, all other glories in your inventory are charged also?", "False"),
     ("Unscramble: hcginelft", "fletching"),
     ("Operating a skill cape will give you what bonus to the skill of that cape?", "level 100"),
     ("What level is required to cast high level alchemy?", "55"),
