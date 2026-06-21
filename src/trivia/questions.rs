@@ -110,28 +110,16 @@ pub const QUESTIONS: &[(&str, &str)] = &[
     ),
     ("What level is a dark warrior?", "8"),
     ("Spell: b____ t_ b______", "bones to bananas"),
-    (
-        "What ancient magick spell can you do at level 94?",
-        "ice barrage",
-    ),
     ("At what mining level can you mine Silver?", "20"),
     ("What level is an Ice Giant?", "53"),
     ("What is the dragon dagger special called?", "puncture"),
     ("What level is a knight of Ardougne?", "46"),
     ("How many weapons have special attacks?", "19"),
-    (
-        "What ancient magick spell can you do at level 68?",
-        "Blood Burst",
-    ),
     ("On what day do updates USUALLY take place?", "Monday"),
     ("At what attack level can you use a dragon scimitar?", "60"),
     ("How many minutes does a potato take to grow?", "35"),
     ("What level is a Hill Giant?", "28"),
     ("What prayer can you use at level 1?", "Thick Skin"),
-    (
-        "What ancient magick spell can you do at level 72?",
-        "Lassar Teleport",
-    ),
     ("What cooking level is required to cook Dolphin?", "none"),
     (
         "What does it say when you examine a Tiara Mould?",
@@ -285,16 +273,8 @@ pub const QUESTIONS: &[(&str, &str)] = &[
         "67",
     ),
     ("What level agility is needed for Falador shortcut?", "6"),
-    (
-        "What ancient magick spell can you do at level 88?",
-        "Shadow Barrage",
-    ),
     ("What magic spell can you do at level 73?", "Enfeeble"),
     ("What is the abbreviation for a Death Match?", "dm"),
-    (
-        "What ancient magick spell can you do at level 58?",
-        "Ice Rush",
-    ),
     (
         "At what fishing level are you able to fish for sharks?",
         "76",
@@ -317,10 +297,6 @@ pub const QUESTIONS: &[(&str, &str)] = &[
     ("What does an examined Oak say?", "A Beautiful Old Oak"),
     ("What color is the liquid of a super attack pot?", "blue"),
     ("How many types of ores are there?", "9"),
-    (
-        "What ancient magick spell can you do at level 66?",
-        "Kharyrll Teleport",
-    ),
     (
         "What does it say when you examine 43536236 Coins?",
         "43536236 x coins",
@@ -350,10 +326,6 @@ pub const QUESTIONS: &[(&str, &str)] = &[
     (
         "What says this when you examine it \"I doubt that was built to last...\"?",
         "heap of bricks",
-    ),
-    (
-        "Ancient magicks spell: Se_n______ T____o_t",
-        "Senntisten Teleport",
     ),
     (
         "From level  1 to level  73 is about how much xp?",
@@ -532,10 +504,6 @@ pub const QUESTIONS: &[(&str, &str)] = &[
         "What free to play quest is required to start the skill Runecraft?",
         "Rune Mysteries",
     ),
-    (
-        "What is the highest level Ancient Magic Damage Spell?",
-        "Ice Barrage",
-    ),
     ("What monster drops beads?", "Imps"),
     ("What rune do you need to cast a blast spell?", "Death"),
     ("Who owns RuneScape?", "Jagex LTD"),
@@ -557,10 +525,6 @@ pub const QUESTIONS: &[(&str, &str)] = &[
     (
         "Where does Ghorrok Teleport take you?",
         "Level 45 Wilderness",
-    ),
-    (
-        "What magic level do you need to cast the spell Ice Blitz?",
-        "82",
     ),
     ("Who is Iban?", "Son of Zamorak"),
     ("What is the first spell you cast?", "Wind Strike"),
@@ -1234,7 +1198,6 @@ pub const QUESTIONS: &[(&str, &str)] = &[
         "Tutorial Island",
     ),
     ("What town is on Karamja?(members)", "Brimhaven"),
-    ("City: K_r__j_", "Karamja"),
     ("What is the name of the third island made?", "Crandor"),
     ("What skill is used in making holy symbols?", "crafting"),
     ("What metal is a holy symbol made from?", "silver"),
@@ -1333,39 +1296,6 @@ pub const QUESTIONS: &[(&str, &str)] = &[
     ),
     ("What level magic is needed to cast Teleblock?", "85"),
     ("What level magic is needed to cast Charge spell?", "80"),
-    ("What level magic is needed to cast Smoke Rush?", "50"),
-    ("What level magic is needed to cast Shadow Rush?", "52"),
-    ("What level magic is needed to cast Paddewwa Teleport", "54"),
-    ("What level magic is needed to cast Blood Rush?", "56"),
-    ("What level magic is needed to cast Ice Rush?", "58"),
-    (
-        "What level magic is needed to cast Senntisten Teleport?",
-        "60",
-    ),
-    ("What level magic is needed to cast Smoke Burst?", "62"),
-    ("What level magic is needed to cast shadow Burst?", "64"),
-    ("What level magic is needed to cast Blood Burst?", "68"),
-    ("What level magic is needed to cast Ice Burst?", "70"),
-    ("What magic level is needed to cast Lassar Teleport?", "72"),
-    ("What level magic is needed to cast Smoke Blitz?", "74"),
-    ("What level magic is needed to cast Shadow Blitz?", "76"),
-    ("What level magic is needed to cast Ice Blitz?", "82"),
-    (
-        "What level magic is needed to cast Carrallangar Teleport?",
-        "84",
-    ),
-    ("What level magic is needed to cast Smoke Barrage?", "86"),
-    ("What level magic is needed to cast Shadow Barrage?", "88"),
-    (
-        "What level magic is needed to cast Annakarl Teleport?",
-        "90",
-    ),
-    ("What level magic is needed to cast Blood Barrage?", "92"),
-    ("What level magic is needed to cast Ice barrage?", "94"),
-    (
-        "What level magic is needed to cast Ghorrock Teleport?",
-        "96",
-    ),
     ("(Anagram)Who is this person? a bas?", "saba"),
     ("(Anagram)Who is this person? aha jar?", "jaraah"),
     ("(Anagram)Who is this person? are col?", "oracle"),
@@ -1409,18 +1339,6 @@ pub const QUESTIONS: &[(&str, &str)] = &[
     ("Under which city is the giant mole found?", "Falador"),
     ("What level wilderness is the chaos elemental found?", "51"),
     ("What level is the chaos elemental?", "305"),
-    (
-        "In desert treasure quest what diamond does Kamil drop?",
-        "ice",
-    ),
-    (
-        "In the desert treasure quest what diamond does Dessous drop?",
-        "blood",
-    ),
-    (
-        "In the desert treasure quest what diamond does Damis drop?",
-        "shadow",
-    ),
     ("Gilded armor has the same stats as what?", "rune"),
     ("How many Halloween masks are there?", "3"),
     (
@@ -1877,7 +1795,6 @@ pub const QUESTIONS: &[(&str, &str)] = &[
     ("Monster name: Tr___ Gen____?", "Troll General"),
     ("Monster name: Tr___ Spe______?", "Troll Spectator"),
     ("Monster name: Tro_____ Wag____?", "Tropical wagtail"),
-    ("Monster name: Tur___?", "Turkey"),
     ("Monster name: Tur___?", "Turoth"),
     ("Monster name: Ty___ Gu___?", "Tyras Guard"),
     ("Monster name: T_-K__?", "Tz-Kek"),
@@ -2384,10 +2301,6 @@ pub const QUESTIONS: &[(&str, &str)] = &[
     (
         "What bonus does a Gilded altar with both burners lit give?",
         "350%",
-    ),
-    (
-        "You can use this spell book after completing Desert Treasure.",
-        "ancient magick",
     ),
     (
         "Praying at the prayer guild gives what advantage over you normal prayer level?",
