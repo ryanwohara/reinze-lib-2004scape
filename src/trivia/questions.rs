@@ -1699,7 +1699,6 @@ pub const QUESTIONS: &[(&str, &str)] = &[
     ("Monster name: Pir___ Gu___?", "Pirate guard"),
     ("Monster name: P__ Sco_____?", "Pit Scorpion"),
     ("Monster name: Pla___ C__?", "Plague cow"),
-    ("Monster name: Pla___ Fr__?", "Plague Frog"),
     ("Monster name: Poi___ Sco_____?", "Poison Scorpion"),
     ("Monster name: Poi___ Spi___?", "Poison Spider"),
     ("Monster name: Pyr______?", "Pyrefiend"),
