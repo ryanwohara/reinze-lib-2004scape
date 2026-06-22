@@ -99,17 +99,17 @@ pub fn lookup(source: Source) -> Result<Vec<String>> {
     let live_raw = fetch_hiscores_raw(&rsn)?;
     let live_listings = parse_hiscores_raw(&live_raw)?;
 
-    let _ = snapshot::save_snapshot("2004scape", "main", &rsn, &live_raw);
-
-    let (old_raw, duration_str) = if flags.search.is_empty() {
-        // No @duration — use most recent snapshot
-        match snapshot::get_latest_snapshot("2004scape", "main", &rsn)? {
-            Some(data) => (data, "latest".to_string()),
-            None => {
+    // Resolve the comparison baseline BEFORE recording the current snapshot.
+    // Otherwise the no-duration "latest" lookup just returns the snapshot we are
+    // about to save (identical to live), so every result is "No changes".
+    let baseline: Option<(String, String)> = if flags.search.is_empty() {
+        match snapshot::get_latest_snapshot("2004scape", "main", &rsn) {
+            Ok(opt) => opt.map(|data| (data, "latest".to_string())),
+            Err(e) => {
                 return Ok(vec![format!(
                     "{} {}",
                     source.l("Track"),
-                    source.c1(&format!("No snapshot found for {}", rsn.replace("_", " ")))
+                    source.c1(&format!("Snapshot lookup failed: {}", e))
                 )]);
             }
         }
@@ -127,19 +127,39 @@ pub fn lookup(source: Source) -> Result<Vec<String>> {
                 )]);
             }
         };
-        match snapshot::get_snapshot("2004scape", "main", &rsn, hours)? {
-            Some(data) => (data, flags.search.clone()),
-            None => {
+        match snapshot::get_snapshot("2004scape", "main", &rsn, hours) {
+            Ok(opt) => opt.map(|data| (data, flags.search.clone())),
+            Err(e) => {
                 return Ok(vec![format!(
                     "{} {}",
                     source.l("Track"),
-                    source.c1(&format!(
-                        "No snapshot found for {} within {}",
-                        rsn.replace("_", " "),
-                        flags.search
-                    ))
+                    source.c1(&format!("Snapshot lookup failed: {}", e))
                 )]);
             }
+        }
+    };
+
+    // Record the current snapshot for future comparisons (also bootstraps the
+    // first-ever lookup for a player, which has no baseline yet).
+    let _ = snapshot::save_snapshot("2004scape", "main", &rsn, &live_raw);
+
+    let (old_raw, duration_str) = match baseline {
+        Some(b) => b,
+        None => {
+            let scope = if flags.search.is_empty() {
+                String::new()
+            } else {
+                format!(" within {}", flags.search)
+            };
+            return Ok(vec![format!(
+                "{} {}",
+                source.l("Track"),
+                source.c1(&format!(
+                    "No snapshot found for {}{}",
+                    rsn.replace("_", " "),
+                    scope
+                ))
+            )]);
         }
     };
 
