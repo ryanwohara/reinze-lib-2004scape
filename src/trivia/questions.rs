@@ -1920,10 +1920,6 @@ pub const QUESTIONS: &[(&str, &str)] = &[
         "first floor",
     ),
     (
-        "What level woodcutting is required to use a Dragon axe?",
-        "61",
-    ),
-    (
         "What do you use to kill the Vampire in the Vampire Slayer quest?",
         "stake",
     ),
