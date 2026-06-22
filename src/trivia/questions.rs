@@ -115,7 +115,6 @@ pub const QUESTIONS: &[(&str, &str)] = &[
     ("What level is a knight of Ardougne?", "46"),
     ("How many weapons have special attacks?", "19"),
     ("On what day do updates USUALLY take place?", "Monday"),
-    ("At what attack level can you use a dragon scimitar?", "60"),
     ("How many minutes does a potato take to grow?", "35"),
     ("What level is a Hill Giant?", "28"),
     ("What prayer can you use at level 1?", "Thick Skin"),
@@ -281,10 +280,6 @@ pub const QUESTIONS: &[(&str, &str)] = &[
     (
         "What Fishing Level is required to enter the Fishing Guild?",
         "68",
-    ),
-    (
-        "What quest must you complete in order to wield the Dragon Scimitar?",
-        "Monkey Madness",
     ),
     ("How much range does a range pot add at level 95?", "13"),
     (
@@ -1642,9 +1637,6 @@ pub const QUESTIONS: &[(&str, &str)] = &[
     ("Monster name: Mo__?", "Monk"),
     ("Monster name: Mo__ o_ Zam____?", "Monk of Zamorak"),
     ("Monster name: Mon___?", "Monkey"),
-    ("Monster name: Mon___ Arc___?", "Monkey Archer"),
-    ("Monster name: Mon___ Gu___?", "Monkey Guard"),
-    ("Monster name: Mon___ Zom___?", "Monkey Zombie"),
     (
         "Monster name: Mon______ Ca__ Cra____?",
         "Monstrous cave crawler",
@@ -1807,10 +1799,6 @@ pub const QUESTIONS: &[(&str, &str)] = &[
     ("What level is a Bronze Dragon?", "131"),
     ("What level is an Iron Dragon?", "189"),
     ("What level is a Steel Dragon?", "246"),
-    (
-        "What level is the Jungle Demon you face in Monkey Madness?",
-        "195",
-    ),
     ("At what level Fishing can you catch Anchovies?", "15"),
     (
         "In the Family Crest quest, where does the Chef live?",
@@ -2132,10 +2120,6 @@ pub const QUESTIONS: &[(&str, &str)] = &[
     ),
     ("What is the 100% drop on a Lesser Demon?", "Ashes"),
     ("Skill, and Quest capes cost how much?", "99k"),
-    (
-        "What agility level do you stop failing Ape atoll agility course?",
-        "75",
-    ),
     (
         "What item allows you to attack using melee from a distance of two squares?",
         "Halberd",
