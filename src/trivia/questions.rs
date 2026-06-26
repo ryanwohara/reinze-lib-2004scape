@@ -1381,10 +1381,6 @@ pub const QUESTIONS: &[(&str, &str)] = &[
         "How much do you pay to get into the Brimhaven dungeon?",
         "875gp",
     ),
-    (
-        "An Obsidian cape and Toktz-ket-xil are also known as?",
-        "Obby set",
-    ),
     ("How many charges does a glory have?", "4"),
     ("Quest name: Black knights ________?", "Fortress"),
     ("Quest name: Cook's _________?", "Assistant"),
@@ -1675,8 +1671,6 @@ pub const QUESTIONS: &[(&str, &str)] = &[
     ("Monster name: Vam____?", "Vampire"),
     ("Monster name: Vam____ Juv______?", "Vampyre Juvenile"),
     ("Monster name: Vul____?", "Vulture"),
-    ("Monster name: War___ Ter_______?", "Warped terrorbird"),
-    ("Monster name: War___ Tor_____?", "Warped tortoise"),
     ("Monster name: War____?", "Warrior"),
     ("Monster name: War____ Wo___?", "Warrior woman"),
     ("Monster name: Wat_____?", "Watchman"),
@@ -1725,10 +1719,6 @@ pub const QUESTIONS: &[(&str, &str)] = &[
         "blue",
     ),
     ("How many portals are in Castle Wars?", "3"),
-    (
-        "How many tickets do the God Capes cost in Castle Wars?",
-        "10",
-    ),
     (
         "Who do you trade in Castle Wars to buy the Decorative Armours?",
         "Lanthus",
@@ -2025,7 +2015,6 @@ pub const QUESTIONS: &[(&str, &str)] = &[
         "The Sphinx in Sophanem",
     ),
     ("What is the 100% drop on a Lesser Demon?", "Ashes"),
-    ("Skill, and Quest capes cost how much?", "99k"),
     (
         "What item allows you to attack using melee from a distance of two squares?",
         "Halberd",
@@ -2061,10 +2050,6 @@ pub const QUESTIONS: &[(&str, &str)] = &[
         "False",
     ),
     ("Unscramble: hcginelft", "fletching"),
-    (
-        "Operating a skill cape will give you what bonus to the skill of that cape?",
-        "level 100",
-    ),
     ("What level is required to cast high level alchemy?", "55"),
     (
         "If you have 1 million xp in any skill, you are level __ in that skill?",

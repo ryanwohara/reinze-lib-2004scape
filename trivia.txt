@@ -615,7 +615,6 @@ Quest Name: The Restless _____|Ghost
 Which armour is all red?|dragon
 Who do you pay to get into the Brimhaven dungeon?|Saniboch
 How much do you pay to get into the Brimhaven dungeon?|875gp
-An Obsidian cape and Toktz-ket-xil are also known as?|Obby set
 How many charges does a glory have?|4
 Quest name: Black knights ________?|Fortress
 Quest name: Cook's _________?|Assistant
@@ -894,8 +893,6 @@ Monster name: Uni____?|Unicorn
 Monster name: Vam____?|Vampire
 Monster name: Vam____ Juv______?|Vampyre Juvenile
 Monster name: Vul____?|Vulture 
-Monster name: War___ Ter_______?|Warped terrorbird 
-Monster name: War___ Tor_____?|Warped tortoise 
 Monster name: War____?|Warrior
 Monster name: War____ Wo___?|Warrior woman
 Monster name: Wat_____?|Watchman
@@ -932,7 +929,6 @@ In the Family Crest quest, where does the Chef live?|Catherby
 How many spaces are in your inventory?|28
 What color Party Hat does the Wise Old Man telegrab when he kills a player in the bank recording?|blue
 How many portals are in Castle Wars?|3
-How many tickets do the God Capes cost in Castle Wars?|10
 Who do you trade in Castle Wars to buy the Decorative Armours?|Lanthus
 How many Characters can each server/world hold?|2000
 How many Apple Trees are in the Apple Orchard?|30
@@ -1046,7 +1042,6 @@ Quest name: Cook's ______|Assistant
 Which quest rewards you with the Barrelchest anchor?|The Great Brain Robbery
 If you were to lose your amulet of Catspeak, who would you have to talk to in order to receive it again?|The Sphinx in Sophanem
 What is the 100% drop on a Lesser Demon?|Ashes
-Skill, and Quest capes cost how much?|99k
 What item allows you to attack using melee from a distance of two squares?|Halberd
 What item teleports you to Al kharid, Draynor, Edgeville,and Karamja?|Amulet of Glory
 What smithing level is required to make a rune dagger?|85
@@ -1058,7 +1053,6 @@ This type of charm gives the most Xp per monster|Blue
 Completing the Rag 'n Bone man Quest gives you the option between what two item rewards?|Ram Skull Helmet and bone sack
 True or False: When you use one glory amulet on the Heroes guild fountain, all other glories in your inventory are charged also?|False
 Unscramble: hcginelft|fletching
-Operating a skill cape will give you what bonus to the skill of that cape?|level 100
 What level is required to cast high level alchemy?|55
 If you have 1 million xp in any skill, you are level __ in that skill?|73
 The dogs in the Brimhaven dungeon are what level?|63
