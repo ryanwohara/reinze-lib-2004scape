@@ -589,7 +589,6 @@ Who do you have to kill to acquire ice gloves?|ice queen
 How many shots does a fully recharged crystal bow have?|2500
 What is the highest level any random can be?|159
 What is the random called where you get a strange box?|mysterious old man
-Under which city is the giant mole found?|Falador
 Gilded armor has the same stats as what?|rune
 How many Halloween masks are there?|3
 If you have this level in Attack, Strength, and Defence, you will be 100 combat. What level is it?|80
@@ -659,30 +658,16 @@ Quest name: Tree gnome _______?|Village
 Quest name: All Fired __?|Up
 Quest name: Summer's ___?|End
 Quest name: Defender of _______?|Varrock
-Minigame name: Balthazar Beauregard's Big Top _______?|Bonanza
-Minigame name: Shooting ____?|Star
-Minigame name: Barbarian _______?|Assault
 Minigame name: Castle ____?|Wars
-Minigame name: Clan ____?|Wars
 Minigame name: Duel _____?|Arena
-Minigame name: Fist of ______?|Guthix
 Minigame name: Mage _____?|Arena
-Minigame name: Pest _______?|Control
 Minigame name: ______ of Mort'ton?|Shades
 Minigame name: Tai Bwo Wannai _______?|Cleanup
-Minigame name: All Fired __?|Up
-Minigame name: Blast _______?|Furnace
 Minigame name: Brimhaven Agility _____?|Arena
-Minigame name: Burthorpe Games ____?|Room
 Minigame name: Fishing _______?|Trawler
 Minigame name: Gnome ____?|Ball
-Minigame name: Great Orb _______?|Project
-Minigame name: Impetuous ________?|Impulses
-Minigame name: Rogue ______?|Trader
-Minigame name: Sorceress's ______?|Garden
 Minigame name: Tears of ______?|Guthix
 Minigame name: Treasure ______?|trails
-Minigame name: Trouble _______?|Brewing
 Monster name: Aberrant _______?|spectre
 Monster name: Arm_____ zom___?|Armoured zombie
 Monster name: Bab_ bla__ dra___?|Baby black dragon
@@ -724,8 +709,6 @@ Monster name: Cyc____?|Cyclops
 Monster name: ___?|Dad
 Monster name: Dag______?|Dagannoth
 Monster name: Dag______ Mot___?|Dagannoth mother
-Monster name: Dag______ Pri__?|Dagannoth Prime
-Monster name: Dag______ ___?|Dagannoth Rex
 Monster name: Dag______ Spa__?|Dagannoth spawn
 Monster name: Dar_ Keb___?|Dark kebbit
 Monster name: Dar_ War____?|Dark Warrior
@@ -745,14 +728,12 @@ Monster name: Exp_______?|Experiment
 Monster name: Far___?|Farmer
 Monster name: Fi__ Gi___?|Fire giant
 Monster name: For_____ Gua__?|Fortress Guard
-Monster name: Gen____ Gra_____?|General Graardor
 Monster name: Gen____ Kha____?|General Khazard
 Monster name: Gha__?|Ghast
 Monster name: Gho__?|Ghost
 Monster name: Gho__?|Ghoul
 Monster name: Gia__ Cr__?|Giant Crab
 Monster name: Gia__ Lob____?|Giant Lobster
-Monster name: Gia__ Mo__?|Giant Mole
 Monster name: Gia__ Ro__ Cr__?|Giant Rock Crab
 Monster name: Gia__ Ske_____?|Giant skeleton
 Monster name: Gia__ Sna__|Giant snail
@@ -813,7 +794,6 @@ Monster name: Ma___ A__?|Magic Axe
 Monster name: M__?|Man 
 Monster name: Mar___ Gu___?|Market Guard
 Monster name: Mer______?|Mercenary 
-Monster name: Mit____ Dra___?|Mithril dragon 
 Monster name: Mol_____?|Molanisk 
 Monster name: Mo__?|Monk 
 Monster name: Mo__ o_ Zam____?|Monk of Zamorak
@@ -862,7 +842,6 @@ Monster name: Sab__-_______ Kya__?|Sabre-toothed kyatt
 Monster name: Sar______ Wiz___?|Saradomin Wizard 
 Monster name: Sco_____?|Scorpion
 Monster name: S__ Tr___?|Sea troll
-Monster name: S__ Tro__ Qu___?|Sea Troll Queen 
 Monster name: Sea____?|Seagull 
 Monster name: Sh___?|Shade
 Monster name: Sha___ Spi___?|Shadow Spider 
@@ -896,7 +875,6 @@ Monster name: Ter___ D__?|Terror dog
 Monster name: Ter_______?|Terrorbird
 Monster name: Th___?|Thief
 Monster name: Th__?|Thug 
-Monster name: To_-X__?|Tok-Xil 
 Monster name: Tok__-K__-D___?|TokTz-Ket-Dill 
 Monster name: Tor_____?|Tortoise
 Monster name: Tor_____ So__?|Tortured Soul 
@@ -909,8 +887,6 @@ Monster name: Tr___ Gen____?|Troll General
 Monster name: Tr___ Spe______?|Troll Spectator 
 Monster name: Tro_____ Wag____?|Tropical wagtail 
 Monster name: Ty___ Gu___?|Tyras Guard 
-Monster name: T_-K__?|Tz-Kek 
-Monster name: T_-K__?|Tz-Kih 
 Monster name: Un____ C__?|Undead Cow 
 Monster name: Un____ Lum_______?|Undead Lumberjack
 Monster name: Un____ Tr___?|Undead Troll
@@ -918,7 +894,6 @@ Monster name: Uni____?|Unicorn
 Monster name: Vam____?|Vampire
 Monster name: Vam____ Juv______?|Vampyre Juvenile
 Monster name: Vul____?|Vulture 
-Monster name: Wal_______?|Wallasalki 
 Monster name: War___ Ter_______?|Warped terrorbird 
 Monster name: War___ Tor_____?|Warped tortoise 
 Monster name: War____?|Warrior
@@ -987,7 +962,6 @@ What level Agility is needed to do the Rogue's Den?|50
 What Spell has the examine info of 'Smelts Ore without a Furnace'?|superheat item
 Name this god spell C____ O_ G_____.|Claws of Guthix
 What are the Mage Robes called where you need to get Bark, Fine Cloth and Money for the Wizard to make?|splitbark
-What level is Dagannoth Rex?|303
 What is the last Strike spell?|fire strike
 What two Mystic sets are sold in the Magic Guild?|blue and white
 What is the giant snake's name who guards the entrance to the Tears of Guthix?|juna
