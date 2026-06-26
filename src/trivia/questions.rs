@@ -1270,10 +1270,6 @@ pub const QUESTIONS: &[(&str, &str)] = &[
         "otherworldly beings",
     ),
     (
-        "What level agility is needed to enter the agility pyramid?",
-        "30",
-    ),
-    (
         "What level agility is needed to enter the wilderness course?",
         "52",
     ),
@@ -1444,7 +1440,6 @@ pub const QUESTIONS: &[(&str, &str)] = &[
     ("Minigame name: Fist of ______?", "Guthix"),
     ("Minigame name: Mage _____?", "Arena"),
     ("Minigame name: Pest _______?", "Control"),
-    ("Minigame name: Pyramid _______?", "Plunder"),
     ("Minigame name: ______ of Mort'ton?", "Shades"),
     ("Minigame name: Tai Bwo Wannai _______?", "Cleanup"),
     ("Minigame name: All Fired __?", "Up"),
@@ -2024,10 +2019,6 @@ pub const QUESTIONS: &[(&str, &str)] = &[
     (
         "In which skill would you add an irit leaf to a waterfilled vial?",
         "Herblore",
-    ),
-    (
-        "If you're doing Pyramid Plunder, you're most likely training this skill.",
-        "Thieving",
     ),
     (
         "You need this type of charm if you plan on making a Terrorbird Pouch.",
