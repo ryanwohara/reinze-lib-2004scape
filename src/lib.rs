@@ -5,6 +5,7 @@ mod boost;
 mod challenge;
 mod common;
 mod coords;
+mod grats;
 mod level;
 mod noburn;
 mod players;
@@ -31,6 +32,7 @@ use std::os::raw::c_char;
 const TRIGGERS: &str = r"boosts?
 anagram
 challenge
+((con)?grat[sz]?(ulations?)?|gz)
 (coords?|clue)
 co?mb(at)?\d*$
 x?e?xp(erience)?
@@ -118,6 +120,8 @@ pub extern "C" fn exported(context: *const PluginContext) -> *mut c_char {
             "anagram" => anagram::lookup(&source),
             "challenge" => challenge::lookup(&source),
             "coords" | "coord" | "clue" => coords::lookup(&source),
+            "congratulations" | "congratulation" | "congrats" | "congratz" | "grats" | "gratz"
+            | "gz" => grats::get(&source),
             "combat" | "cmb" => stats::combat(source),
             "experience" | "xperience" | "exp" | "xp" => xp::lookup(&source),
             "level" | "lvl" => level::lookup(&source),
@@ -140,6 +144,7 @@ pub extern "C" fn exported(context: *const PluginContext) -> *mut c_char {
             "help" => Ok(r"boost
 anagram
 challenge
+congrats
 coords
 combat[N]
 exp
@@ -219,5 +224,24 @@ mod tests {
     fn stats_commands_remain_single_match() {
         assert_eq!(matching_triggers("stats"), 1);
         assert_eq!(matching_triggers("stats2"), 1);
+    }
+
+    #[test]
+    fn every_grats_command_matches_exactly_one_trigger() {
+        for cmd in [
+            "gz",
+            "grats",
+            "gratz",
+            "congrats",
+            "congratz",
+            "congratulation",
+            "congratulations",
+        ] {
+            assert_eq!(
+                matching_triggers(cmd),
+                1,
+                "`{cmd}` should match exactly one trigger"
+            );
+        }
     }
 }
