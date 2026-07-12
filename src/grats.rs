@@ -166,8 +166,8 @@ fn combat_skill(token: &str) -> Option<&'static str> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use common::author::Author;
     use common::ColorResult;
+    use common::author::Author;
     use std::os::raw::c_char;
 
     extern "C" fn stub_color(_host: *const c_char, _colors: *const c_char) -> ColorResult {

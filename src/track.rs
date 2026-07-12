@@ -163,7 +163,21 @@ pub fn lookup(source: Source) -> Result<Vec<String>> {
         }
     };
 
-    let old_listings = parse_hiscores_raw(&old_raw)?;
+    // Surface a bad stored snapshot as a visible message: a `?` here would
+    // propagate to the FFI boundary, which swallows errors into silence.
+    let old_listings = match parse_hiscores_raw(&old_raw) {
+        Ok(listings) => listings,
+        Err(e) => {
+            return Ok(vec![format!(
+                "{} {}",
+                source.l("Track"),
+                source.c1(&format!(
+                    "Can't compare against the {} snapshot: {}",
+                    duration_str, e
+                ))
+            )]);
+        }
+    };
     let changes = diff_listings(&old_listings, &live_listings);
     Ok(format_changes(&changes, &source, &duration_str))
 }

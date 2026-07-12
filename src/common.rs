@@ -671,6 +671,42 @@ pub fn replace_all(caps: &regex::Captures) -> String {
 mod tests {
     use super::*;
 
+    // --- hiscores parsing tests ---
+
+    #[test]
+    fn hiscores_json_aligns_by_type_id_not_position() {
+        // Entries carry a stable `type` id, so reordering — or a newly added
+        // hiscore entry appearing in the feed — can never shift values onto a
+        // neighbouring skill the way a positional CSV parse could. Old
+        // snapshots therefore stay comparable across layout changes.
+        let json = r#"[
+            {"type": 21, "level": 50, "value": 1013750, "rank": 3},
+            {"type": 19, "level": 99, "value": 130000000, "rank": 1},
+            {"type": 1, "level": 40, "value": 372620, "rank": 7}
+        ]"#;
+
+        let listings = parse_hiscores_raw(json).unwrap();
+
+        assert_eq!(listings.skill("Runecrafting").unwrap().xp, 101375);
+        assert_eq!(listings.skill("Attack").unwrap().xp, 37262);
+        // The unknown type id is skipped entirely, not misattributed.
+        assert_eq!(listings.iter().count(), 2);
+    }
+
+    #[test]
+    fn hiscores_json_with_only_unknown_types_is_an_error() {
+        let json = r#"[{"type": 19, "level": 1, "value": 0, "rank": 0}]"#;
+        assert!(parse_hiscores_raw(json).is_err());
+    }
+
+    #[test]
+    fn hiscores_snapshot_garbage_is_an_error_not_a_panic() {
+        // Stored snapshot data that predates the JSON API (or is otherwise
+        // corrupt) must come back as a reportable error.
+        assert!(parse_hiscores_raw("0,1013750,50\n1,372620,40").is_err());
+        assert!(parse_hiscores_raw("").is_err());
+    }
+
     // --- get_cmb tests ---
 
     #[test]
