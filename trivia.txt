@@ -1,142 +1,130 @@
 What is the weakest armor?|bronze
-What level mining do you need to mine coal?|30
+What level Mining do you need to mine Coal?|30
 What level is Elvarg?|83
 What level is a Black Knight?|33
-How many Quest Points do you need for the Champion's Guild?|32
-What is smithed with copper to make bronze?|tin
+How many Quest Points do you need for the Champions' Guild?|32
+What is smelted with copper to make bronze?|tin
 What is the name of the ore involved in "The Knight's Sword" quest?|blurite
-What is the first type of weapon you can make in each metal?|dagger
+What is the first type of weapon you can smith with each metal?|dagger
 True or false: Dragon can be smithed.|false
-What beer will raise your mining and smithing level by 1 each?|Dwarven Stout
-What mining level do you need to get into the Mining Guild?|60
+What beer will raise your Mining and Smithing level by 1 each?|Dwarven stout
+What Mining level do you need to get into the Mining Guild?|60
 What city do you start in when you arrive from Tutorial Island?|Lumbridge
 What is the city north of the Barbarian Village?|Edgeville
 How many gp are equal to one K?|1000
-How many items do you keep after you have been killed without a skull?|3
-Who made RuneScape?|Andrew Gower
-When you die where do you normally respawn from?|Lumbridge
-What is the best armor a non-member can use?|rune
+How many items do you keep after you have been killed without a skull or protection prayers?|3
+Who founded RuneScape?|Andrew Gower
+When you die where do you respawn?|Lumbridge
+What is the best melee armor a non-member can use?|rune
 How many gp do you have to pay to get to Karmaja?|30
 What will ruin the potion in the Black Knights Fortress quest?|cabbage
 How many map pieces do you need to get in the Dragon Slayer quest?|3
 What enemy is in the top floor of the Wizards Tower other than Wizards?|Lesser Demon
-What points to the pirates treasure?|a statue
-What is the dragons name in the Dragon Slayer quest?|Elvarg
+What points to the pirate's treasure?|a statue
+What is the dragon's name in the Dragon Slayer quest?|Elvarg
 When did RuneScape 3D Beta come out?|December 1
-What fishing level do you need for Heroes' Quest?|53
+What Fishing level do you need for Hero's Quest?|53
 What is the highest combat level in RuneScape Classic?|123
-What is the highest combat level in RuneScape 2?|138
+What is the highest combat level in RuneScape 2?|126
 Where can you find the chainmail shop?|Falador
-What cooking level is required to bake bread?|1
-At what Agility level can you play gnomeball?|1
+What Cooking level is required to bake Bread?|1
+At what Agility level can you play Gnomeball?|1
 When you reach level 99 in a skill, what exp does it say for next level?|14,391,160
-What mining level would you need to mine coal with a Dwarven Stout?|29
+What Mining level would you need to mine Coal with a Dwarven Stout?|29
 What is the name of the river that goes through the desert?|River Elid
 What does it say when you examine a Ruined Pillar?|An old crumbled pillar
 What can you steal from a scimitar stall?|scimitars
 What magic spell can you do at level 45?|Camelot Teleport
-What is the maximum total level?|2376
-At what defence level can you wear a rune platebody?|40
-What defence level is needed to wear Mithril armour?|20
-What crafting level is required to make Sapphire Amulet?|24
-What level is a dark warrior?|8
+What is the maximum total level?|1881
+At what defence level can you wear a Rune Platebody?|40
+What Defence level is needed to wear mithril armour?|20
+What Crafting level is required to make a Sapphire Amulet?|24
+What level is a Dark Warrior?|8
 Spell: b____ t_ b______|bones to bananas
-At what mining level can you mine Silver?|20
+At what Mining level can you mine Silver?|20
 What level is an Ice Giant?|53
-What is the dragon dagger special called?|puncture
-What level is a knight of Ardougne?|46
-How many weapons have special attacks?|19
-On what day do updates USUALLY take place?|Monday
-How many minutes does a potato take to grow?|35
+What is the Dragon Dagger special attack called?|puncture
+What level is a Knight of Ardougne?|46
+How many weapons have special attacks?|11
 What level is a Hill Giant?|28
-What prayer can you use at level 1?|Thick Skin
-What cooking level is required to cook Dolphin?|none
-What does it say when you examine a Tiara Mould?|A mould for tiaras
-What Runecrafting level is required to use a Giant Pouch?|75
-What do you need to make leather?|Cow hide
-What ranging level must you have in order to use a dwarf cannon?|1
-RuneScape History: In 2002, RuneScape member's version was released. In what month was it released?|February
-What special ore is requires to make the sword in the Knight’s Sword Quest?|Blurite
+What Prayer can you use at level 1?|Thick Skin
+What do you need to make Leather?|Cow hide
+What Ranging level must you have in order to use a dwarf cannon?|1
+RuneScape History: In 2002, RuneScape members version was released. In what month was it released?|February
+What special ore is requires to make the sword in the Knightâ€™s Sword Quest?|Blurite
 How many gp must you get for your money to be labeled "K" instead of "GP" in your inventory?|100000
-What percent will a Super Attack Potion increase your attack?|20
-What percent will a Super Strength Potion increase your attack?|0
-How many cosmic runes can you make with 1 essence at 73 Runecrafting?|2
+What percent will a Super Attack Potion increase your Attack?|20
+What percent will a Super Strength Potion increase your Attack?|0
+How many Cosmic Runes can you make with 1 Rune Essence at 73 Runecrafting?|2
 What is the description of Rock Skin?|Increases your defence by 10
 When you transfer a brand new RSC account to RS2, how many Hitpoints will you have?|9
-How many gp does a Yew Long Bow (s) high alch for?|768
-What level is a blue dragon?|111
+How many gp does a Yew Longbow high alch for?|768
+What level is a Blue Dragon?|111
 What type of trees can you cut at level 1 Woodcutting?|normal
-At what smithing level can you smith a Steel Scimitar?|35
+At what Smithing level can you smith a Steel Scimitar?|35
 How much experience do you need to get a skill to level 2?|83
 How many Hitpoints does an Ice Warrior have?|59
-What level are Steel Dragons?|246
-What is the maximum hit of a Magic Shortbow special added up?|46
-What does the examination of the archer close to Draynor say?|She looks quite experienced
+What is the total maximum hit of a Magic Shortbow special?|46
+What does the examination of the archer close to Draynor say?|She looks quite experienced.
 What prayer can you use at level 10?|Rock Skin
 Where do you buy halberds?|Isafdar
-What type of rune do you need for Strike Spells?|Mind
-What level are chickens?|1
-What Herblore level is required to make anti fire-breath potions?|69
+What type of rune do you need for strike spells?|Mind
+What level are Chickens?|1
+What Herblore level is required to make Anti Fire-breath Potions?|69
 Doing Dragon Slayer quest allows you to wear what type of platebody?|Rune
-What fishing level do you need to get into the Fishing Guild (with a Fishing potion)?|65
-What Woodcutting level do you need to cut Magic Trees?|75
+What Fishing level do you need to get into the Fishing Guild (with a Fishing potion)?|65
+What Woodcutting level do you need to cut Magic trees?|75
 What level Runecrafting do you need to make Law runes?|54
 What level Runecrafting do you need to make Nature runes?|44
 What level is a Man?|2
 Who is believed to be Zamorak's son?|Iban
-Which quest is the longest?|One Small Favour
-What agility is required to do Regicide?|56
+What Agility is required to do Regicide?|56
 What items must you collect for Imp Catcher?|beads
-What is the best RuneScape client ever made?|SwiftKit
-Where does Evil Bob teleport you?|ScapeRune
-What do you do to the fish on Evil Bobs island?|Uncook
 Where is the Magic Guild?|Yanille
 What is the only skill in which you cannot do or make anything at level 1?|Herblore
-What thieving level is required to thieve a Guard?|40
-How much bank space do members have?|496
-What Firemaking level is required to light Mining Helmets?|65
-Name this God Spell - S________ S_____|Saradomin Strike
+What Thieving level is required to pickpocket a Guard?|40
+How much bank space do members have?|240
+Name this God spell - S________ S_____|Saradomin Strike
 What magic spell lets you teleport someone else?|Teleother
 In the Shilo Village quest, you need to get _____ of the Dead|Beads
-What can you cut at level 60 woodcutting?|Yew
-How much does the Zamorak Book give to all attack stats?|8
-What item do you need to pick up a fire feather?|Ice Gloves
-What crafting level is required to make a dragonstone amulet?|80
+What type of tree can you cut at level 60 woodcutting?|Yew
+How much does the Unholy book give to all attack stats?|8
+What item do you need to pick up a Fire Feather?|Ice Gloves
+What Crafting level is required to make a Dragonstone Amulet?|80
 If you had 3/99 HP, how many full Meat Pizzas would you have to eat to get to full HP?|7
-What fletching level do you need to make Adamant Darts?|67
-What level agility is needed for Falador shortcut?|6
+What Fletching level do you need to make Adamant Darts?|67
+What level Agility is needed for Falador shortcut?|6
 What magic spell can you do at level 73?|Enfeeble
-What is the abbreviation for a Death Match?|dm
-At what fishing level are you able to fish for sharks?|76
+At what Fishing level are you able to fish for Sharks?|76
 What magic spell can you do at level 20?|Bind
-What Fishing Level is required to enter the Fishing Guild?|68
-How much range does a range pot add at level 95?|13
-What Fletching Level do you need to make a Magic Long Bow?|85
+What Fishing level is required to enter the Fishing Guild?|68
+How much range does a Ranging Potion add at level 95?|13
+What Fletching level do you need to make a Magic Longbow?|85
 What city does the silk dealer reside in?|Al Kharid
 What does an examined Oak say?|A Beautiful Old Oak
-What color is the liquid of a super attack pot?|blue
+What color is the liquid of a Super Attack Potion?|blue
 How many types of ores are there?|9
 What does it say when you examine 43536236 Coins?|43536236 x coins
-What Magic Level is required to enter the Mage Guild?|66
+What Magic level is required to enter the Magic Guild?|66
 What magic level is required for High Level Alchemy?|55
-What level fletching is required to make steel darts?|37
-What level agility is needed for Port Phasmatys to Ectopool shortcut?|58
-What type of rune do you need for Blast Spells?|Death
+What level Fletching is required to make Steel Darts?|37
+What level Agility is needed for Port Phasmatys to Ectopool shortcut?|58
+What type of rune do you need for blast spells?|Death
 What magic spell can you do at level 56?|charge water orb
-What crafting level do you need to make red dragonhide body?|77
+What Crafting level do you need to make Red Dragonhide Body?|77
 What says this when you examine it "I doubt that was built to last..."?|heap of bricks
-From level  1 to level  73 is about how much xp?|1 million
-What level is it to craft blue dragonhide chaps?|68
+From level 1 to level 73 is about how much xp?|1 million
+What level is it to craft Blue Dragonhide Chaps?|68
 How much experience is given when you identify Dwarf Weed?|13.75
-What does it say when you examine a cow?|Converts grass to beef
+What does it say when you examine a Cow?|It's a dairy cow.
 At what level can you fish a Manta Ray?|81
-What prayer can you use at level 34?|Incredible Reflexes
-How much do the cannon pieces cost separately?|200k
+What Prayer can you use at level 34?|Incredible Reflexes
+How much do the Dward Multicannon pieces cost separately?|200k
 What does the skull and crossbones at the bottom right of the screen mean?|Wilderness
-What level agility is needed for dwarven mine shortcut?|42
+What level Agility is needed for Dwarven Mine shortcut?|42
 What magic spell can you do at level 37?|Falador teleport
-What does an examined Zamorak Full Helm say?|Rune Full Helm in the Colours of Zamorak
-What range level is required to wear ranger boots?|40
+What does an examined Zamorak Full Helm say?|Rune Full Helm in the Colours of Zamorak.
+What Range level is required to wear Ranger Boots?|40
 In what quest do you obtain Glarial's Amulet?|Waterfall Quest
 In "Tutorial Island" what type of shield do you receive?|Wooden shield
 Where would you find Jimmy the Chisel?|HAM Prison
@@ -419,7 +407,7 @@ How many coal do you need for Doric's quest?|0
 How many iron do you need for Doric's quest?|2
 How many clay do you need for Doric's quest?|6
 How many copper do you need for Doric's quest?|4
-What is the name of Ernest’s Wife?|Veronica
+What is the name of Ernestâ€™s Wife?|Veronica
 Who do you talk to in the vampire quest?|Morgan
 Who sells rune plate mail?|Oziach
 In the dragon quest, who gives you a riddle on top of ice mountain?|Oracle
@@ -493,7 +481,7 @@ What town is the helmet shop in?|barbarian village
 What town is the shield shop in?|Falador
 What town is the staff shop in?|Varrock
 What town is the mace shop in?|Falador
-What is the name of the chain mail shop?|Wayne’s Chains
+What is the name of the chain mail shop?|Wayneâ€™s Chains
 What is the name of the archery store in Varrock?|Lowe's Archery Emporium
 Who runs the eastern anvils and a small store in Varrock?|Horvik
 What is the name of the person who sells axes in Port Sarim?|Brian
