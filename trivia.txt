@@ -29,7 +29,6 @@ At what Thieving level can you steal from Cake Stalls?|5
 Blue, Red, White, Green, Purple, and what is the last color of party hat?|Yellow
 Camelot Teleport requires _ air and _ law rune|5 1
 City: A_ K_____|Al Kharid
-Complete the quest name: Getrude's ___|cat
 Completing the Tree Gnome Village quest allows you to use the Spirit Trees to ___________?|teleport
 Doing Dragon Slayer quest allows you to wear what type of platebody?|Rune
 Falador Teleport requires _ air, _ water, and _ law rune|3 1 1
@@ -410,36 +409,65 @@ On 6/6/06, who was one of the few characters to be able to attack people out of 
 On what holiday were holiday drops made non-tradable?|Easter
 Praying at the prayer guild gives what advantage over you normal prayer level?|+2
 Putting a teeth halve and loop halve together gives you a what?|Crystal key
-Quest name: Big chompy bird _______?|Hunting
-Quest name: Black knights ________?|Fortress
+Quest name: ____ _____ Village?|Tree Gnome
+Quest name: ____ City?|Lost
+Quest name: _____ & Juliet?|Romeo
+Quest name: _____ Herder?|Sheep
+Quest name: _____ Plateau?|Death
+Quest name: _____ Shearer?|Sheep
+Quest name: _____ Stronghold?|Troll
+Quest name: _____ Village?|Shilo
+Quest name: ______ ___ Rescue?|Prince Ali
+Quest name: ______ Crest?|Family
+Quest name: ______ Diplomacy?|Goblin
+Quest name: ______ from the Deep?|Horror
+Quest name: ______ Totem?|Tribal
+Quest name: _______ Contest?|Fishing
+Quest name: ________ Catcher?|Scorpion
+Quest name: _________ Workshop?|Elemental
+Quest name: ___________ Pass?|Underground
+Quest name: Big Chompy Bird _______?|Hunting
+Quest name: Black Knight's ________?|Fortress
+Quest name: Clock _____?|Tower
 Quest name: Cook's _________?|Assistant
-Quest name: Cook's ______|Assistant
-Quest name: Creature of __________|Fenkenstrain
-Quest name: Demon _____?|Slayer
-Quest name: Elemental ________?|Workshop
+Quest name: Demon ______?|Slayer
+Quest name: Digsite _____?|Quest
+Quest name: Doric's _____?|Quest
+Quest name: Dragon ______?|Slayer
+Quest name: Druidic ______?|Ritual
+Quest name: Dwarf ______?|Cannon
+Quest name: Eadgar's ____?|Ruse
 Quest name: Ernest the _______?|Chicken
-Quest name: Goblin _________?|Diplomacy
+Quest name: Gertrude's ___?|Cat
 Quest name: Hazeel ____?|Cult
+Quest name: Hero's _____?|Quest
 Quest name: Holy _____?|Grail
 Quest name: Imp _______?|Catcher
-Quest name: In search of the _______?|Myreque
 Quest name: Jungle ______?|Potion
+Quest name: Legends _____?|Quest
 Quest name: Merlin's _______?|Crystal
-Quest name: Mountain ________?|Daughter
+Quest name: Monk's ______?|Friend
 Quest name: Murder _______?|Mystery
 Quest name: Nature ______?|Spirit
-Quest name: One small ______?|Favour
-Quest name: Recruitment _____?|Drive
-Quest name: Romeo and ______?|Juliet
-Quest name: Scorpion _______?|Catcher
+Quest name: Observatory _____?|Quest
+Quest name: Pirate's ________?|Treasure
+Quest name: Plague ____?|City
+Quest name: Priest in _____?|Peril
+Quest name: Rune _________ Quest?|Mysteries
+Quest name: Sea ____ Quest?|Slug
 Quest name: Shades of ____'___?|Mort'ton
-Quest name: Sheep ______?|Herder
 Quest name: Shield of _____?|Arrav
+Quest name: Tai Bwo ______ Trio?|Wannai
 Quest name: Temple of ____?|Ikov
-Quest name: The Restless _____?|Ghost
-Quest Name: The Restless _____|Ghost
-Quest name: Throne of ___________?|Miscellania
-Quest name: Tree gnome _______?|Village
+Quest name: The _____ Tree?|Grand
+Quest name: The _______ Trap?|Tourist
+Quest name: The ________ Ghost?|Restless
+Quest name: The Fremennik ______?|Trials
+Quest name: Vampire ______?|Slayer
+Quest name: Watch _____?|Tower
+Quest name: Waterfall _____?|Quest
+Quest name: Witch's ______?|Potion
+Quest name: Witches _____?|House
 Range armour is strong against what?|Magic
 Range is weak against what?|Melee Armour
 RuneScape History: In 2002, RuneScape members version was released. In what month was it released?|February
