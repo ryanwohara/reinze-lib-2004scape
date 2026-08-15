@@ -566,6 +566,27 @@ impl Listing {
     pub fn actual_level(&self) -> u32 {
         xp_to_level(self.xp)
     }
+
+    /// A listing built from a level rather than read off the hiscores, for
+    /// callers that are told the levels -- `-cmb-est` supplies its own.
+    ///
+    /// Hitpoints starts at 10 in game and every other skill at 1, so a level
+    /// below the skill's floor is raised to it. The XP is the minimum for that
+    /// level, which is what makes the totals a `Listings` reports add up.
+    pub fn set_level(name: HiscoreName, level: u32) -> Self {
+        let level = if name == HiscoreName::Hitpoints {
+            level.max(10)
+        } else {
+            level.max(1)
+        };
+
+        Listing {
+            name,
+            rank: 0,
+            level,
+            xp: level_to_xp(level),
+        }
+    }
 }
 
 impl<'a> FromIterator<Listing> for Listings {

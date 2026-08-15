@@ -3,6 +3,7 @@ extern crate core;
 mod anagram;
 mod boost;
 mod challenge;
+mod combat_est;
 mod common;
 mod coords;
 mod grats;
@@ -34,6 +35,7 @@ anagram
 challenge
 ((con)?grat[sz]?(ulations?)?|gz)
 (coords?|clue)
+co?mb(at)?-?est
 co?mb(at)?\d*$
 x?e?xp(erience)?
 le?ve?l
@@ -123,6 +125,7 @@ pub extern "C" fn exported(context: *const PluginContext) -> *mut c_char {
             "congratulations" | "congratulation" | "congrats" | "congratz" | "grats" | "gratz"
             | "gz" => grats::get(&source),
             "combat" | "cmb" => stats::combat(source),
+            "combatest" | "cmbest" | "cmb-est" | "combat-est" => combat_est::estimate(source),
             "experience" | "xperience" | "exp" | "xp" => xp::lookup(&source),
             "level" | "lvl" => level::lookup(&source),
             "noburn" | "burn" => noburn::noburn(&source),
@@ -147,6 +150,7 @@ challenge
 congrats
 coords
 combat[N]
+combat-est
 exp
 level
 noburn
@@ -237,6 +241,30 @@ mod tests {
             "congratulation",
             "congratulations",
         ] {
+            assert_eq!(
+                matching_triggers(cmd),
+                1,
+                "`{cmd}` should match exactly one trigger"
+            );
+        }
+    }
+
+    #[test]
+    fn every_cmb_est_command_matches_exactly_one_trigger() {
+        for cmd in ["combatest", "cmbest", "cmb-est", "combat-est"] {
+            assert_eq!(
+                matching_triggers(cmd),
+                1,
+                "`{cmd}` should match exactly one trigger"
+            );
+        }
+    }
+
+    #[test]
+    fn combat_and_cmb_est_do_not_claim_each_other() {
+        // `co?mb(at)?-?est` sits directly above `co?mb(at)?\d*$`, and the two
+        // are one `est` apart. Neither may answer for the other's commands.
+        for cmd in ["combat", "cmb", "combat2", "cmb3"] {
             assert_eq!(
                 matching_triggers(cmd),
                 1,
