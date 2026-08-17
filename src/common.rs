@@ -566,6 +566,27 @@ impl Listing {
     pub fn actual_level(&self) -> u32 {
         xp_to_level(self.xp)
     }
+
+    /// A listing built from a level rather than read off the hiscores, for
+    /// callers that are told the levels -- `-cmb-est` supplies its own.
+    ///
+    /// Hitpoints starts at 10 in game and every other skill at 1, so a level
+    /// below the skill's floor is raised to it. The XP is the minimum for that
+    /// level, which is what makes the totals a `Listings` reports add up.
+    pub fn set_level(name: HiscoreName, level: u32) -> Self {
+        let level = if name == HiscoreName::Hitpoints {
+            level.max(10)
+        } else {
+            level.max(1)
+        };
+
+        Listing {
+            name,
+            rank: 0,
+            level,
+            xp: level_to_xp(level),
+        }
+    }
 }
 
 impl<'a> FromIterator<Listing> for Listings {
@@ -586,26 +607,6 @@ impl<'a> FromIterator<&'a HiscoreName> for Listing {
         let index = it.next().unwrap_or(&HiscoreName::None);
 
         index.to()
-    }
-}
-
-impl Display for Listing {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "{}{} {}{} {}{}",
-            c1("Lvl:"),
-            c2(&commas(self.level as f64, "d")),
-            c1("XP:"),
-            c2(&commas(self.xp as f64, "d")),
-            c1("Rank:"),
-            c2(if self.rank == 0 {
-                "N/A".to_string()
-            } else {
-                commas(self.rank as f64, "d")
-            }
-            .as_str())
-        )
     }
 }
 
