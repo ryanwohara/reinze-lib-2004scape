@@ -3,6 +3,7 @@ extern crate core;
 mod anagram;
 mod boost;
 mod challenge;
+mod cmb_percent;
 mod combat_est;
 mod common;
 mod coords;
@@ -35,6 +36,7 @@ anagram
 challenge
 ((con)?grat[sz]?(ulations?)?|gz)
 (coords?|clue)
+co?mb(at)?%
 co?mb(at)?-?est
 co?mb(at)?\d*$
 x?e?xp(erience)?
@@ -89,7 +91,9 @@ pub extern "C" fn exported(context: *const PluginContext) -> *mut c_char {
         let color = (*context).color;
         let channel = to_str_or_default((*context).channel);
 
-        let re = Regex::new(r"^([a-zA-Z]+)(\d+)$").unwrap();
+        // `%` is part of the name for `+cmb%`, so it has to survive the split
+        // that peels a trailing RSN index off a command (`+cmb%5` -> `cmb%`, 5).
+        let re = Regex::new(r"^([a-zA-Z%]+)(\d+)$").unwrap();
         let cmd = command.to_string();
         let re_match = match re.captures(&cmd) {
             Some(captures) => vec![captures],
@@ -126,6 +130,7 @@ pub extern "C" fn exported(context: *const PluginContext) -> *mut c_char {
             | "gz" => grats::get(&source),
             "combat" | "cmb" => stats::combat(source),
             "combatest" | "cmbest" | "cmb-est" | "combat-est" => combat_est::estimate(source),
+            "cmb%" | "combat%" => cmb_percent::percent(source),
             "experience" | "xperience" | "exp" | "xp" => xp::lookup(&source),
             "level" | "lvl" => level::lookup(&source),
             "noburn" | "burn" => noburn::noburn(&source),
@@ -151,6 +156,7 @@ congrats
 coords
 combat[N]
 combat-est
+combat%[N]
 exp
 level
 noburn
@@ -252,6 +258,19 @@ mod tests {
     #[test]
     fn every_cmb_est_command_matches_exactly_one_trigger() {
         for cmd in ["combatest", "cmbest", "cmb-est", "combat-est"] {
+            assert_eq!(
+                matching_triggers(cmd),
+                1,
+                "`{cmd}` should match exactly one trigger"
+            );
+        }
+    }
+
+    #[test]
+    fn every_cmb_percent_command_matches_exactly_one_trigger() {
+        // Including the RSN-indexed forms, since the host matches triggers
+        // against the whole command before the index is split off.
+        for cmd in ["cmb%", "combat%", "cmb%5", "combat%12"] {
             assert_eq!(
                 matching_triggers(cmd),
                 1,
