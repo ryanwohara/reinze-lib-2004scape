@@ -3,8 +3,8 @@
 //! Reports the share of total XP earned in the seven combat skills, with the
 //! levels and XP on each side of that split.
 
-use crate::common::{Listings, collect_hiscores, resolve_rsn};
-use crate::stats::{stats_parameters, strip_stats_parameters};
+use crate::common::{Listings, collect_hiscores};
+use crate::stats::strip_stats_parameters;
 use anyhow::Result;
 use common::{commas, source::Source};
 
@@ -68,18 +68,18 @@ pub fn percent(s: Source) -> Result<Vec<String>> {
     let prefix = s.l("Combat%");
     let not_found: Vec<String> = vec![vec![prefix.as_str(), &s.c1("No stats found")].join(" ")];
 
-    let flags = stats_parameters(&s.query);
+    // The flags themselves go unread here -- this command has no display
+    // options -- but they still have to come off the query before the rest is
+    // treated as an RSN.
     let joined: String = strip_stats_parameters(&s.query)
         .split_whitespace()
         .collect::<Vec<&str>>()
         .join(" ");
 
-    let rsn = resolve_rsn(&joined, &s);
     let hiscores = match collect_hiscores(&joined, &s) {
         Ok(hiscores) => hiscores,
         Err(_) => return Ok(not_found),
     };
-    let _ = flags;
 
     let (combat, other) = split(&hiscores);
     let total = combat.xp + other.xp;
@@ -91,7 +91,6 @@ pub fn percent(s: Source) -> Result<Vec<String>> {
 
     let output = vec![
         prefix,
-        s.l(&rsn),
         s.c1("Combat:"),
         s.c2(&format!("{share:.1}%")),
         s.c1("of"),
