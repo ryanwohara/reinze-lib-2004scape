@@ -62,7 +62,7 @@ w(ood)?c(utting)?
 fletch(ing)?
 fish(ing)?
 f(ire)?m(aking)?
-craft(ing)?
+^craft(ing)?
 smith(ing)?
 min(e|ing)
 herb(lore)?
@@ -226,6 +226,35 @@ mod tests {
                 matching_triggers(cmd),
                 1,
                 "`{cmd}` should match exactly one trigger"
+            );
+        }
+    }
+
+    #[test]
+    fn every_stats_command_matches_exactly_one_trigger() {
+        // `craft(ing)?` is unanchored, so it used to claim `runecraft` as well as
+        // `r(une)?c(raft)?` and the host answered `+runecraft` twice. Indexed
+        // forms count too: the host matches before the RSN index is split off.
+        let commands = [
+            "overall", "stats", "total", "attack", "att", "defence", "def", "strength", "str",
+            "hitpoints", "hp", "ranged", "range", "prayer", "pray", "magic", "mage", "cooking",
+            "cook", "woodcutting", "wc", "fletching", "fletch", "fishing", "fish", "firemaking",
+            "fm", "crafting", "craft", "smithing", "smith", "mining", "mine", "herblore", "herb",
+            "agility", "agil", "thieving", "thief", "runecraft", "rc",
+        ];
+
+        for cmd in commands {
+            assert_eq!(
+                matching_triggers(cmd),
+                1,
+                "`{cmd}` should match exactly one trigger"
+            );
+
+            let indexed = format!("{cmd}2");
+            assert_eq!(
+                matching_triggers(&indexed),
+                1,
+                "`{indexed}` should match exactly one trigger"
             );
         }
     }
