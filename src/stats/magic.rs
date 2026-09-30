@@ -587,7 +587,12 @@ impl Skill for Magic {
     {
         let mut all = Self::all();
 
-        let q = query.to_string().to_lowercase();
+        // Spell names contain spaces ("Wind Strike"), but the stats `@<search>`
+        // flag is captured as `\S+`, so users can only pass a spaceless token.
+        // Treat underscores as spaces so `@wind_strike` matches. (Safe for magic
+        // specifically: no spell name contains an underscore. Skills whose names
+        // *are* underscored, like fletching, must NOT do this.)
+        let q = query.to_string().to_lowercase().replace('_', " ");
 
         if let Ok(pattern) = Regex::new(q.as_str()) {
             let mut index = 0;
@@ -635,5 +640,43 @@ impl IntoString for MagicDetails {
             )
             .as_str())
         )
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::stats::skill::{Detail, Skill};
+
+    #[test]
+    fn underscore_query_matches_spaced_spell_name() {
+        // Spell names hold spaces ("Wind Strike"), but the `@<search>` flag on the
+        // stats path is captured as `\S+`, so a spaceless `@wind_strike` is all a
+        // user can type. Underscores in the query should stand in for spaces.
+        let results = Magic::search("wind_strike");
+        assert!(
+            results.iter().any(|m| m.name() == "Wind Strike"),
+            "`wind_strike` should match `Wind Strike`"
+        );
+    }
+
+    #[test]
+    fn underscores_match_hyphenated_multiword_name() {
+        let results = Magic::search("enchant_lvl-1_jewelry");
+        assert!(
+            results.iter().any(|m| m.name() == "Enchant Lvl-1 Jewelry"),
+            "`enchant_lvl-1_jewelry` should match `Enchant Lvl-1 Jewelry`"
+        );
+    }
+
+    #[test]
+    fn spaced_query_still_matches() {
+        // The `+spell` command passes the whole query through, so real spaces must
+        // keep working alongside the new underscore handling.
+        let results = Magic::search("wind strike");
+        assert!(
+            results.iter().any(|m| m.name() == "Wind Strike"),
+            "`wind strike` should still match `Wind Strike`"
+        );
     }
 }
