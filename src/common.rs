@@ -551,15 +551,21 @@ pub struct Listing {
 }
 
 impl Listing {
+    /// The level to work towards: the `#` target when one is given and still
+    /// ahead of the player, otherwise the next level.
     pub fn next_level(&self, flags: &StatsFlags) -> u32 {
-        if flags.end > 0 {
-            if flags.end <= 126 {
-                flags.end
-            } else {
-                xp_to_level(flags.end)
-            }
+        let next = self.actual_level() + 1;
+
+        let target = match flags.end {
+            0 => return next,
+            end if end <= 126 => end,
+            end => xp_to_level(end),
+        };
+
+        if target > self.actual_level() {
+            target
         } else {
-            self.actual_level() + 1
+            next
         }
     }
 
@@ -896,6 +902,31 @@ mod tests {
             search: "".to_string(),
         };
         assert_eq!(listing.next_level(&flags), 99);
+    }
+
+    /// A `#` target at or below the current level (or an XP target already
+    /// earned) is behind the player, so it falls back to the next level.
+    #[test]
+    fn test_listing_next_level_with_passed_end() {
+        use crate::stats::{FilterBy, MutuallyExclusiveFlag, Prefix};
+        let listing = Listing {
+            name: HiscoreName::Attack,
+            rank: 1,
+            level: 50,
+            xp: 166636, // level 55
+        };
+        for end in [40, 55, 1000] {
+            let flags = StatsFlags {
+                filter_by: FilterBy::None,
+                filter_at: 0,
+                prefix: Prefix::None,
+                flag: MutuallyExclusiveFlag::None,
+                start: 0,
+                end,
+                search: "".to_string(),
+            };
+            assert_eq!(listing.next_level(&flags), 56, "end = {end}");
+        }
     }
 
     // --- Listings tests ---
