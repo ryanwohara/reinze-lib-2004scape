@@ -3,7 +3,11 @@ use regex::Regex;
 use std::ops::Add;
 
 pub enum Crafting {
+    // Spinning
+    BallOfWool,
+    BowString,
     // Glassblowing
+    MoltenGlass,
     BeerGlass,
     Vial,
     Orb,
@@ -41,6 +45,9 @@ pub enum Crafting {
     BlackLeatherChaps,
     BlackLeatherBody,
     // Gem Cutting
+    Opal,
+    Jade,
+    RedTopaz,
     Sapphire,
     Emerald,
     Ruby,
@@ -67,6 +74,9 @@ pub enum Crafting {
     RubyAmulet,
     DiamondAmulet,
     DragonstoneAmulet,
+    // Silver
+    HolySymbol,
+    UnholySymbol,
 }
 
 impl Detail for Crafting {
@@ -105,8 +115,11 @@ impl Skill for Crafting {
         Self: Sized,
     {
         vec![
+            Self::BallOfWool,
+            Self::MoltenGlass,
             Self::Pot,
             Self::LeatherGloves,
+            Self::Opal,
             Self::BeerGlass,
             Self::GoldRing,
             Self::GoldNecklace,
@@ -115,8 +128,13 @@ impl Skill for Crafting {
             Self::Bowl,
             Self::GoldAmulet,
             Self::LeatherCowl,
+            Self::BowString,
             Self::LeatherVambraces,
+            Self::Jade,
             Self::LeatherBody,
+            Self::RedTopaz,
+            Self::HolySymbol,
+            Self::UnholySymbol,
             Self::LeatherChaps,
             Self::Sapphire,
             Self::SapphireRing,
@@ -133,9 +151,9 @@ impl Skill for Crafting {
             Self::Coif,
             Self::RubyNecklace,
             Self::StuddedLeatherBody,
-            Self::StuddedLeatherChaps,
             Self::Diamond,
             Self::DiamondRing,
+            Self::StuddedLeatherChaps,
             Self::Orb,
             Self::RubyAmulet,
             Self::WaterBattlestaff,
@@ -182,19 +200,23 @@ impl Skill for Crafting {
 
     fn details(&self) -> Details {
         let details = match self {
+            // Spinning
+            Self::BallOfWool => ("Ball of Wool", 1, 2.5),
+            Self::BowString => ("Bow String", 10, 15.0),
             // Glassblowing
+            Self::MoltenGlass => ("Molten Glass", 1, 20.0),
             Self::BeerGlass => ("Beer Glass", 3, 17.5),
             Self::Vial => ("Vial", 33, 35.0),
             Self::Orb => ("Orb", 46, 52.5),
             // Battlestaffs
             Self::WaterBattlestaff => ("Water Battlestaff", 54, 100.0),
             Self::EarthBattlestaff => ("Earth Battlestaff", 58, 112.5),
-            Self::FireBattlestaff => ("Fire Battlestaff", 63, 125.0),
+            Self::FireBattlestaff => ("Fire Battlestaff", 62, 125.0),
             Self::AirBattlestaff => ("Air Battlestaff", 66, 137.5),
             // Pottery
-            Self::Pot => ("Pot", 1, 12.5),
+            Self::Pot => ("Pot", 1, 12.6),
             Self::PieDish => ("Pie Dish", 7, 25.0),
-            Self::Bowl => ("Bowl", 8, 25.0),
+            Self::Bowl => ("Bowl", 8, 33.0),
             // Leather
             Self::LeatherGloves => ("Leather Gloves", 1, 13.8),
             Self::LeatherBoots => ("Leather Boots", 7, 16.3),
@@ -204,8 +226,8 @@ impl Skill for Crafting {
             Self::LeatherChaps => ("Leather Chaps", 18, 27.0),
             Self::Coif => ("Coif", 38, 37.0),
             Self::HardLeatherBody => ("Hard Leather Body", 28, 35.0),
-            Self::StuddedLeatherBody => ("Studded Leather Body", 41, 65.0),
-            Self::StuddedLeatherChaps => ("Studded Leather Chaps", 44, 69.0),
+            Self::StuddedLeatherBody => ("Studded Leather Body", 41, 40.0),
+            Self::StuddedLeatherChaps => ("Studded Leather Chaps", 44, 42.0),
             // Dragonhide
             Self::GreenLeatherVambraces => ("Green Leather Vambraces", 57, 62.0),
             Self::GreenLeatherChaps => ("Green Leather Chaps", 60, 124.0),
@@ -220,32 +242,38 @@ impl Skill for Crafting {
             Self::BlackLeatherChaps => ("Black Leather Chaps", 82, 172.0),
             Self::BlackLeatherBody => ("Black Leather Body", 84, 258.0),
             // Gem Cutting
+            Self::Opal => ("Opal", 1, 15.0),
+            Self::Jade => ("Jade", 13, 20.0),
+            Self::RedTopaz => ("Red Topaz", 16, 25.0),
             Self::Sapphire => ("Sapphire", 20, 50.0),
-            Self::Emerald => ("Emerald", 27, 67.0),
+            Self::Emerald => ("Emerald", 27, 67.5),
             Self::Ruby => ("Ruby", 34, 85.0),
             Self::Diamond => ("Diamond", 43, 107.5),
             Self::Dragonstone => ("Dragonstone", 55, 137.5),
             // Rings
             Self::GoldRing => ("Gold Ring", 5, 15.0),
-            Self::SapphireRing => ("Sapphire Ring", 8, 40.0),
-            Self::EmeraldRing => ("Emerald Ring", 18, 55.0),
+            Self::SapphireRing => ("Sapphire Ring", 20, 40.0),
+            Self::EmeraldRing => ("Emerald Ring", 27, 55.0),
             Self::RubyRing => ("Ruby Ring", 34, 70.0),
             Self::DiamondRing => ("Diamond Ring", 43, 85.0),
             Self::DragonstoneRing => ("Dragonstone Ring", 55, 100.0),
             // Necklaces
             Self::GoldNecklace => ("Gold Necklace", 6, 20.0),
-            Self::SapphireNecklace => ("Sapphire Necklace", 10, 55.0),
-            Self::EmeraldNecklace => ("Emerald Necklace", 24, 60.0),
+            Self::SapphireNecklace => ("Sapphire Necklace", 20, 55.0),
+            Self::EmeraldNecklace => ("Emerald Necklace", 29, 60.0),
             Self::RubyNecklace => ("Ruby Necklace", 40, 75.0),
             Self::DiamondNecklace => ("Diamond Necklace", 56, 90.0),
             Self::DragonstoneNecklace => ("Dragonstone Necklace", 72, 105.0),
             // Amulets
             Self::GoldAmulet => ("Gold Amulet", 8, 30.0),
             Self::SapphireAmulet => ("Sapphire Amulet", 24, 65.0),
-            Self::EmeraldAmulet => ("Emerald Amulet", 30, 70.0),
+            Self::EmeraldAmulet => ("Emerald Amulet", 31, 70.0),
             Self::RubyAmulet => ("Ruby Amulet", 50, 85.0),
             Self::DiamondAmulet => ("Diamond Amulet", 70, 100.0),
             Self::DragonstoneAmulet => ("Dragonstone Amulet", 80, 150.0),
+            // Silver
+            Self::HolySymbol => ("Holy Symbol", 16, 50.0),
+            Self::UnholySymbol => ("Unholy Symbol", 17, 50.0),
         };
 
         Details::Crafting(CraftingDetails {
