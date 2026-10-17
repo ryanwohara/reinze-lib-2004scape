@@ -70,6 +70,25 @@ impl Details {
         }
     }
 
+    pub fn level(&self) -> u32 {
+        match self {
+            Details::Agility(agility) => agility.level,
+            Details::Cooking(cooking) => cooking.level,
+            Details::Crafting(crafting) => crafting.level,
+            Details::Firemaking(firemaking) => firemaking.level,
+            Details::Fishing(fishing) => fishing.level,
+            Details::Fletching(fletching) => fletching.level,
+            Details::Herblore(herblore) => herblore.level,
+            Details::Magic(magic) => magic.level,
+            Details::Mining(mining) => mining.level,
+            Details::Prayer(prayer) => prayer.level,
+            Details::Runecraft(runecraft) => runecraft.level,
+            Details::Smithing(smithing) => smithing.level,
+            Details::Thieving(thieving) => thieving.level,
+            Details::Woodcutting(woodcutting) => woodcutting.level,
+        }
+    }
+
     #[allow(dead_code)]
     pub fn name(&self) -> String {
         if let Some(result) = skills().get(self.skill_id() as usize) {
@@ -128,23 +147,49 @@ pub enum Multipliers {
     Smithing(SmithingMultipliers),
 }
 
-pub fn details_by_skill_id(id: u32, query: &str) -> Vec<Details> {
+/// How many actions to fall back to when none of a skill's defaults are
+/// unlocked yet.
+const FALLBACK_COUNT: usize = 5;
+
+/// The skill's defaults the player can do at `level`. When none are unlocked
+/// yet, the highest-level actions they can do instead, lowest first.
+fn defaults_at<T: Skill>(level: u32) -> Vec<Details> {
+    let mut defaults = T::defaults();
+    defaults.retain(|detail| detail.level() <= level);
+
+    if !defaults.is_empty() {
+        return defaults;
+    }
+
+    let mut doable = T::all()
+        .iter()
+        .map(|x| x.details())
+        .filter(|detail| detail.level() <= level)
+        .collect::<Vec<Details>>();
+    doable.sort_by_key(|detail| detail.level());
+
+    let skip = doable.len().saturating_sub(FALLBACK_COUNT);
+
+    doable.split_off(skip)
+}
+
+pub fn details_by_skill_id(id: u32, query: &str, level: u32) -> Vec<Details> {
     if query.len() == 0 {
         return match skill_by_id(id).as_str() {
-            "Agility" => Agility::defaults(),
-            "Cooking" => Cooking::defaults(),
-            "Crafting" => Crafting::defaults(),
-            "Firemaking" => Firemaking::defaults(),
-            "Fishing" => Fishing::defaults(),
-            "Fletching" => Fletching::defaults(),
-            "Herblore" => Herblore::defaults(),
-            "Magic" => Magic::defaults(),
-            "Mining" => Mining::defaults(),
-            "Prayer" => Prayer::defaults(),
-            "Runecrafting" => Runecraft::defaults(),
-            "Smithing" => Smithing::defaults(),
-            "Thieving" => Thieving::defaults(),
-            "Woodcutting" => Woodcutting::defaults(),
+            "Agility" => defaults_at::<Agility>(level),
+            "Cooking" => defaults_at::<Cooking>(level),
+            "Crafting" => defaults_at::<Crafting>(level),
+            "Firemaking" => defaults_at::<Firemaking>(level),
+            "Fishing" => defaults_at::<Fishing>(level),
+            "Fletching" => defaults_at::<Fletching>(level),
+            "Herblore" => defaults_at::<Herblore>(level),
+            "Magic" => defaults_at::<Magic>(level),
+            "Mining" => defaults_at::<Mining>(level),
+            "Prayer" => defaults_at::<Prayer>(level),
+            "Runecrafting" => defaults_at::<Runecraft>(level),
+            "Smithing" => defaults_at::<Smithing>(level),
+            "Thieving" => defaults_at::<Thieving>(level),
+            "Woodcutting" => defaults_at::<Woodcutting>(level),
             _ => vec![],
         };
     }
@@ -189,5 +234,42 @@ pub fn details_by_skill_id(id: u32, query: &str) -> Vec<Details> {
             .map(|x| x.details())
             .collect(),
         _ => vec![],
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn defaults_drop_actions_above_the_players_level() {
+        let defaults = defaults_at::<Crafting>(60);
+
+        assert!(!defaults.is_empty());
+        assert!(defaults.iter().all(|detail| detail.level() <= 60));
+        assert!(defaults.len() < Crafting::defaults().len());
+    }
+
+    #[test]
+    fn defaults_are_unchanged_once_every_one_is_unlocked() {
+        assert!(defaults_at::<Crafting>(99) == Crafting::defaults());
+    }
+
+    #[test]
+    fn defaults_fall_back_to_the_best_doable_actions() {
+        // Cooking's defaults start at Lobster (40).
+        let defaults = defaults_at::<Cooking>(20);
+
+        assert!(!defaults.is_empty());
+        assert!(defaults.len() <= FALLBACK_COUNT);
+        assert!(defaults.iter().all(|detail| detail.level() <= 20));
+        assert!(defaults.windows(2).all(|w| w[0].level() <= w[1].level()));
+    }
+
+    #[test]
+    fn a_query_ignores_the_players_level() {
+        let results = details_by_skill_id(skill_id("Crafting".to_string()), "battlestaff", 1);
+
+        assert!(results.iter().any(|detail| detail.level() > 1));
     }
 }

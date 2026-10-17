@@ -300,7 +300,7 @@ pub fn lookup(s: Source) -> Result<Vec<String>> {
 
         let output = result.join(&s.c1(" | "));
 
-        let details = details_by_skill_id(skill_id as u32, &stats.flags.search);
+        let details = details_by_skill_id(skill_id as u32, &stats.flags.search, listing.level);
 
         let calc = details
             .iter()
